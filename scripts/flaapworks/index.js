@@ -15,6 +15,7 @@ class Flaapworks {
   static async initialise() {
     try {
       console.log(' ::>> flaapworks initialised >>>>>> ');
+      await ModuleLoader.initialise();
       return Flaapworks;
     } catch (e) {
       logger.error('Failed to load dtlController due to cause:', e);
