@@ -1,12 +1,9 @@
-const Constants = {
+export const Constants = {
   FRAMEWORK: {
     ENTRY: 'flaap-app',
     TEMPLATE: 'flaap-template-',
     ROUTER: 'flaap-router',
     ATTRIBUTES: {
-      DRAG_START: 'fl-drag-start',
-      DRAG_OVER: 'fl-drag-over',
-      DRAG_DROP: 'fl-drag-drop',
       CLICK: 'fl-click',
       CLICK_TEMPLATE: 'data-click-trigger',
       REPEAT: 'fl-repeat',

@@ -1,0 +1,28 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "esnext",
+    "typeRoots": ["./node_modules/@types", "./typings/**/*.d.ts"],
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "target": "es5",
+    "lib": ["es2015", "dom"],
+    "moduleResolution": "node",
+    "baseUrl": "src",
+    "resolveJsonModule": true,
+    "importHelpers": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*", "test/**/*", "scripts/**/*"],
+  "exclude": [
+    "postcss.config.js",
+    "./tailwind.config.js",
+    "./webpack.config.js"
+  ],
+  "atom": {
+    "rewriteTsconfig": false
+  }
+}

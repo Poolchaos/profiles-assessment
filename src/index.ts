@@ -1,3 +1,5 @@
+import { Flaapworks, Logger } from './scripts/flaapworks';
+
 (async function () {
   Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
   const logger = new Logger('Index');
