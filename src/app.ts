@@ -23,12 +23,4 @@ export class App extends ViewLifecycle {
       },
     ]);
   }
-
-  public navigateToProfileOverview(): void {
-    Router.navigate('profile-overview');
-  }
-
-  public navigateToSingleProfile(): void {
-    Router.navigate('single-profile');
-  }
 }

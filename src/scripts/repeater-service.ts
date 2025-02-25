@@ -4,37 +4,46 @@ import Logger from './logger';
 const logger = new Logger('RepeaterService');
 
 export class RepeaterService {
-  public static async templateRepeatableItems(viewModel: any): Promise<any> {
+  public static async templateRepeatableItems(viewModel: any): Promise<void> {
     const repeatAttr = Constants.FRAMEWORK.ATTRIBUTES.REPEAT;
     const elements = document.querySelectorAll(`[${repeatAttr}]`);
-    if (!elements.length) return true;
-
-    try {
-      for (const el of elements) {
-        const repeatValue = el.getAttribute(repeatAttr);
-        const [itemVar, arrayName] = this.parseRepeatValue(repeatValue);
-        const itemsArray = viewModel[arrayName];
-
-        if (!itemsArray || !Array.isArray(itemsArray)) {
-          logger.error(`Array "${arrayName}" not found or not an array in viewModel`);
-          continue;
-        }
-
-        const parent = el.parentNode;
-        itemsArray.forEach((item: any) => {
-          const clone = el.cloneNode(true) as HTMLElement;
-          clone.removeAttribute(repeatAttr);
-          this.replacePlaceholders(clone, itemVar, item);
-          this.bindEvents(clone, viewModel, itemVar, item);
-          parent.insertBefore(clone, el);
-        });
-        el.remove();
-      }
-      return true;
-    } catch (e) {
-      logger.error('Failed to render repeaters due to cause:', e);
-      return false;
+    for (const el of elements) {
+      const repeatValue = el.getAttribute(repeatAttr);
+      const [itemVar, arrayName] = this.parseRepeatValue(repeatValue);
+      this.renderRepeatableItems(viewModel, arrayName, itemVar, el as HTMLElement);
     }
+  }
+
+  public static renderRepeatableItems(viewModel: any, arrayName: string, itemVar: string, templateEl?: HTMLElement): void {
+    const repeatAttr = 'fl-repeat';
+    if (!templateEl) {
+      templateEl = document.querySelector(`[${repeatAttr}*="${arrayName}"]`) as HTMLElement;
+    }
+    if (!templateEl) {
+      logger.error(`No template found for ${arrayName}`);
+      return;
+    }
+
+    const parent = templateEl.parentNode;
+    const existingItems = parent.querySelectorAll(`[data-repeat="${arrayName}"]`);
+    existingItems.forEach((item) => item.remove());
+
+    const itemsArray = viewModel[arrayName];
+    if (!Array.isArray(itemsArray)) {
+      logger.error(`"${arrayName}" is not an array in viewModel`);
+      return;
+    }
+
+    itemsArray.forEach((item) => {
+      const clone = templateEl.cloneNode(true) as HTMLElement;
+      clone.removeAttribute(repeatAttr);
+      clone.setAttribute('data-repeat', arrayName);
+      clone.style.display = '';
+      this.replacePlaceholders(clone, itemVar, item);
+      parent.appendChild(clone);
+    });
+
+    templateEl.style.display = 'none';
   }
 
   private static parseRepeatValue(value: string): [string, string] {
@@ -49,25 +58,24 @@ export class RepeaterService {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     while (walker.nextNode()) {
       const node = walker.currentNode;
-      node.textContent = node.textContent.replace(new RegExp(`\\$\\{${itemVar}\\.(\\w+)\\}`, 'g'), (match, prop) => item[prop] || '');
-    }
-  }
-
-  private static bindEvents(el: HTMLElement, viewModel: any, itemVar: string, item: any): void {
-    const clickAttr = Constants.FRAMEWORK.ATTRIBUTES.CLICK;
-    if (el.hasAttribute(clickAttr)) {
-      const action = el.getAttribute(clickAttr);
-      const [funcName, argPart] = action.split('(');
-      const arg = argPart.replace(')', '').trim();
-      const prop = arg.replace(`${itemVar}.`, '');
-      el.addEventListener('click', () => {
-        if (typeof viewModel[funcName] === 'function') {
-          viewModel[funcName](item[prop]);
-        } else {
-          logger.error(`Function "${funcName}" not found in viewModel`);
-        }
+      const regex = new RegExp(`\\$\\{\\s*${itemVar}\\.(\\w+)\\s*\\}`, 'g');
+      node.textContent = node.textContent.replace(regex, (match, prop) => {
+        const value = item[prop];
+        return value !== undefined ? value : '';
       });
-      el.removeAttribute(clickAttr);
+    }
+
+    const regex = new RegExp(`\\$\\{\\s*${itemVar}\\.(\\w+)\\s*\\}`, 'g');
+    for (let i = 0; i < el.attributes.length; i++) {
+      const attr = el.attributes[i];
+      attr.value = attr.value.replace(regex, (match, prop) => {
+        const value = item[prop];
+        return value !== undefined ? value : '';
+      });
+    }
+
+    for (let i = 0; i < el.children.length; i++) {
+      this.replacePlaceholders(el.children[i] as HTMLElement, itemVar, item);
     }
   }
 }

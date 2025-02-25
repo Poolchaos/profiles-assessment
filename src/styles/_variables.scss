@@ -1,5 +1,7 @@
 // Colors
-$navbar-bg: #000000;
+$black: #000000;
+
+$navbar-bg: $black;
 $navbar-text: #ffffff;
 $button-border: #333333;
 $button-bg-top: #fefefe;
@@ -8,7 +10,7 @@ $icon-green: #3c763d;
 $icon-red: #a94442;
 $icon-gray: #333333;
 $text-content: #333333;
-$text-header: #000000;
+$text-header: $black;
 $status-top: #7fda7f;
 $status-bottom: #03a903;
 $shadow-color: #dedede;

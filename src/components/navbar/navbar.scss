@@ -1,20 +1,41 @@
 @use '../../styles/variables';
+@use '../../styles/utilities';
+@use 'sass:color';
 
 nav-bar {
   nav {
     background-color: variables.$navbar-bg;
     color: variables.$navbar-text;
 
-    .icon {
-      color: variables.$navbar-text;
+    .menu {
+      display: flex;
+      margin: 0;
+      padding: 0;
+      list-style: none;
     }
 
-    button {
-      padding: variables.$navbar-button-padding;
-      border: 1px solid variables.$button-border;
-      border-radius: variables.$navbar-button-border-radius;
+    .item {
       color: variables.$navbar-text;
-      background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
+      @extend .p-2;
+
+      .icon {
+        margin-right: 0.5rem;
+      }
+
+      a.link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: variables.$navbar-text;
+        }
+      }
+
+      &:hover {
+        background-color: color.adjust(variables.$navbar-bg, $lightness: -10%);
+      }
     }
   }
 }

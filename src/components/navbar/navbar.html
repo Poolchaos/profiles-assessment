@@ -1,7 +1,16 @@
 <template>
-  <nav class="p-2">
-    <ul>
-      <li fl-repeat="item of menuItems" fl-click="navTo(item.route)"><i class="${item.icon}"></i> ${item.name}</li>
+  <nav>
+    <ul class="flex">
+      <li
+        class="item"
+        fl-repeat="item of menuItems"
+        fl-click="navTo(item.route)"
+      >
+        <a class="link">
+          <i class="icon ${item.icon}"></i>
+          ${item.name}
+        </a>
+      </li>
     </ul>
   </nav>
 </template>

@@ -1,3 +1,51 @@
 <template>
-  Profile overview
+  <div class="ui container">
+    <h2 class="ui header">
+      <i class="users icon"></i>
+      <span class="content">All Profiles</span>
+    </h2>
+    <main
+      class="ui cards"
+      role="region"
+      aria-label="Profile List"
+    >
+      <div
+        class="ui card"
+        fl-repeat="profile of profiles"
+        role="article"
+        tabindex="0"
+      >
+        <div
+          class="image profile-bg"
+          style="background-image: url(${profile.avatar})"
+        >
+          <div class="star-icon">
+            <i
+              class="star icon"
+              aria-hidden="true"
+            ></i>
+          </div>
+        </div>
+        <div class="content profile-footer">
+          <div class="header">${profile.name} (${profile.age})</div>
+          <div class="extra content">
+            <button
+              class="ui green button"
+              aria-label="Message ${profile.name}"
+            >
+              <i class="envelope icon"></i>
+              Message
+            </button>
+            <button
+              class="ui red button"
+              aria-label="Flirt with ${profile.name}"
+            >
+              <i class="heart icon"></i>
+              Flirt
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </template>

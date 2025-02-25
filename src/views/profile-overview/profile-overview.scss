@@ -1,0 +1,92 @@
+@use '../../styles/variables';
+@use '../../styles/utilities';
+@use 'sass:color';
+
+.ui.cards {
+  @extend .m-3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ui.header {
+  font-weight: 200;
+}
+
+.ui.card {
+  width: 160px;
+  height: 250px;
+  box-shadow: 0 0 20px variables.$shadow-color;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .profile-bg {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    flex: 1;
+
+    .star-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background-color: rgba(variables.$navbar-text, 0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .star.icon {
+        color: variables.$icon-gray;
+      }
+    }
+  }
+
+  .profile-footer {
+    padding: 1rem;
+    text-align: center;
+
+    .header {
+      font-size: 1rem;
+      color: variables.$text-header;
+      margin-bottom: 0.5rem;
+    }
+
+    .extra.content {
+      display: flex;
+      gap: 0.5rem;
+
+      .ui.button {
+        &.green {
+          background-color: variables.$icon-green;
+          color: variables.$navbar-text;
+
+          &:hover {
+            background-color: color.adjust(variables.$icon-green, $lightness: -10%);
+          }
+        }
+
+        &.red {
+          background-color: variables.$icon-red;
+          color: variables.$navbar-text;
+
+          &:hover {
+            background-color: color.adjust(variables.$icon-red, $lightness: -10%);
+          }
+        }
+      }
+    }
+  }
+}
