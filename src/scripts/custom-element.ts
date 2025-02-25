@@ -1,22 +1,27 @@
+import { ModuleLoader } from './module-loader';
 import { v4 as uuidv4 } from 'uuid';
 import $ from 'jquery';
+import Logger from './logger';
+import { RequestService } from './request-service';
+import { AttributesService } from './attributes-service';
 
 const __custom_elements__: { [tagName: string]: CustomElement } = {};
+const logger = new Logger('CustomElementConfig');
 
 // todo: cater for use of components within the router
 
 export interface CustomElementConfig {
   tagName: string;
-  template: string;
-  viewModel: string;
+  module: string;
 }
 
 class CustomElement {
   private shadowRoots: { [id: string]: ShadowRoot };
   private hosts: { [id: string]: HTMLElement };
   private tagName: string;
-  private template: string;
-  private viewModel: string;
+  private module: string;
+  // private template: string;
+  // private viewModel: string;
 
   constructor(config: CustomElementConfig) {
     this.setupUsables(config);
@@ -27,8 +32,9 @@ class CustomElement {
     this.shadowRoots = {};
     this.hosts = {};
     this.tagName = config.tagName;
-    this.template = config.template;
-    this.viewModel = config.viewModel;
+    this.module = config.module;
+    // this.template = config.template;
+    // this.viewModel = config.viewModel;
   }
 
   private findInstances(): void {
@@ -48,20 +54,25 @@ class CustomElement {
   }
 
   private renderSingleElement(el: HTMLElement): void {
+    console.log(' ::>> el >>>> ', el, this.module);
     const _id = uuidv4();
     this.addHost(_id, el);
-    this.createShadowDom(_id).then(
-      () => {
-        $(this.shadowRoots[_id]).load(this.template);
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = this.viewModel;
-        this.shadowRoots[_id].appendChild(script);
-      },
-      () => {
-        $(el).load(this.template);
-      }
-    );
+    this.createShadowDom(_id).then(async () => {
+      const container: HTMLElement = document.querySelector(el.tagName.toLowerCase());
+      ModuleLoader.loadTemplate(this.module, container);
+      // $(this.shadowRoots[_id]).load(this.template, async () => {
+      //   const jsContent = await RequestService.fetch(this.viewModel).asJs();
+      //   logger.info('jsContent type:', typeof jsContent, 'content:', jsContent);
+      //   try {
+      //     const script = document.createElement('script');
+      //     script.type = 'module';
+      //     script.text = jsContent;
+      //     this.shadowRoots[_id].appendChild(script);
+      //   } catch (e) {
+      //     logger.error('errored due to ', e);
+      //   }
+      // });
+    });
   }
 
   private addHost(_id: string, el: HTMLElement): void {
@@ -72,20 +83,24 @@ class CustomElement {
   private createShadowDom(_id: string): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
-        this.shadowRoots[_id] = this.hosts[_id].attachShadow({ mode: 'open' });
+        // @ts-expect-error type issue
+        this.shadowRoots[_id] = this.hosts[_id];
+
+        // toto: resolve shadowDOM issue
+        // this.shadowRoots[_id] = this.hosts[_id].attachShadow({ mode: 'open' });
         resolve();
       } catch (e) {
-        console.log('%c something is wrong with your custom element! this is not a problem with flaap-gallery, but between the chair and the computer. ', 'color:#9D2933;');
+        logger.error('Failed to set shadowroot on component due to ', e);
         reject();
       }
     });
   }
 
   private hasSource(): boolean {
-    if (this.template) {
+    if (this.module) {
       return true;
     }
-    console.log('%c no source specified for component ', 'color:#9D2933;');
+    logger.error('Error: No source specified for component ');
     return false;
   }
 

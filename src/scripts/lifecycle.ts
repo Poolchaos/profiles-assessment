@@ -14,7 +14,11 @@ export class Lifecycle {
     try {
       ModuleLoader.templates[templateId].viewModel[Lifecycle.LIFE_CYCLE.ACTIVATE] && ModuleLoader.templates[templateId].viewModel[Lifecycle.LIFE_CYCLE.ACTIVATE]();
     } catch (e) {
-      logger.error(`Failed to initialise lifecycle method '${Lifecycle.LIFE_CYCLE.ACTIVATE}' due to cause:`, e);
+      if (!ModuleLoader.templates[templateId]) {
+        logger.error(`Activate not initiated due to no template found for viewModel: '${templateId}'. Ensure your class extends ViewLifecycle`);
+      } else {
+        logger.error(`Failed to initialise lifecycle method '${Lifecycle.LIFE_CYCLE.ACTIVATE}' due to cause:`, e);
+      }
     }
   }
 
@@ -22,7 +26,11 @@ export class Lifecycle {
     try {
       ModuleLoader.templates[templateId].viewModel[Lifecycle.LIFE_CYCLE.ATTACHED] && ModuleLoader.templates[templateId].viewModel[Lifecycle.LIFE_CYCLE.ATTACHED]();
     } catch (e) {
-      logger.error(`Failed to initialise lifecycle method '${Lifecycle.LIFE_CYCLE.ATTACHED}' due to cause:`, e);
+      if (!ModuleLoader.templates[templateId]) {
+        logger.error(`Attached not initiated due to no template found for viewModel: '${templateId}'. Ensure your class extends ViewLifecycle`);
+      } else {
+        logger.error(`Failed to initialise lifecycle method '${Lifecycle.LIFE_CYCLE.ATTACHED}' due to cause:`, e);
+      }
     }
   }
 

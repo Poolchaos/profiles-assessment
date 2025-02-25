@@ -23,9 +23,13 @@ export class ModuleLoader {
   public static async loadTemplate(moduleName: string, container: HTMLElement): Promise<any> {
     try {
       const templateId: string = `${Constants.FRAMEWORK.TEMPLATE}${moduleName}`;
-      if (ModuleLoader.existingModuleRendered(moduleName, container, templateId)) return true;
+      if (ModuleLoader.existingModuleRendered(moduleName, container, templateId)) {
+        logger.error(`Module '${moduleName}' has already been registered.`);
+        return true;
+      }
       const template: HTMLElement = await RequestService.parseFetchedXml(moduleName, templateId);
-      const viewModel: any = await ModuleLoader.fetchViewModel(moduleName, template);
+      const viewModel: any = await ModuleLoader.fetchViewModel(moduleName);
+      console.log(' ::>> --------------- viewModel = ', viewModel, moduleName);
       await ModuleLoader.renderTemplate(template, container);
       await ModuleLoader.renderModule(templateId, viewModel);
       return true;
@@ -49,7 +53,7 @@ export class ModuleLoader {
     return true;
   }
 
-  private static fetchViewModel(moduleName: string, template: HTMLElement): void {
+  private static fetchViewModel(moduleName: string): void {
     const ts = RequestService.fetch(moduleName).asTs();
     try {
       for (const _class in ts) {
@@ -84,6 +88,11 @@ export class ModuleLoader {
       const template: any = document.querySelector(`[id="${templateId}"]`);
       const templateHtml = template.innerHTML;
       const module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
+      console.log(' ::>> renderModule >>>>> ', {
+        template,
+        viewModel,
+        module,
+      });
       await Lifecycle.activate(templateId);
       await ModuleLoader.renderTemplateBindings(template, module.templateHtml);
       await ModuleLoader.tryDestroyRenderedTemplate(templateId);

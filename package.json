@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "webpack --env production",
-    "start": "npx webpack serve --env production=false",
+    "start": "npx webpack serve --env dev",
     "start-verbose": "npx webpack serve --env production=false --stats=verbose",
     "build:dev": "webpack",
     "analyze": "webpack --env production --analyze",

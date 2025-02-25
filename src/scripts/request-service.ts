@@ -4,7 +4,7 @@ import { BindingService } from './binding-service';
 const logger = new Logger('RequestService');
 
 export class RequestService {
-  public static fetch(ModuleName: string): { asHtml: () => string; asTs: () => any } {
+  public static fetch(ModuleName: string): { asHtml: () => string; asTs: () => any /*asJs: () => any*/ } {
     return {
       asHtml: () => {
         try {
@@ -20,6 +20,14 @@ export class RequestService {
           logger.error(`Failed to get ts resource ${ModuleName} due to cause:`, e);
         }
       },
+      // asJs: async () => {
+      //   try {
+      //     const data = await require(`!!raw-loader!../${ModuleName}`).default;
+      //     return data;
+      //   } catch (e) {
+      //     logger.error(`Failed to get ts resource ${ModuleName} due to cause:`, e);
+      //   }
+      // },
     };
   }
 

@@ -1,4 +1,4 @@
-import { customElements } from './components/navbar';
+import { customElements } from './components';
 import { Flaapworks, Logger } from './scripts/flaapworks';
 
 (async function () {

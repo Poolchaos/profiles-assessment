@@ -2,6 +2,8 @@ import { Lifecycle } from './lifecycle';
 import { Constants } from '../constants/constants';
 import Logger from './logger';
 import { ModuleLoader } from './module-loader';
+import { customElements } from '../components';
+import { CustomComponent } from './custom-element';
 
 const logger = new Logger('Routing');
 
@@ -68,6 +70,10 @@ export class Router {
         Lifecycle.deactivate(`${Constants.FRAMEWORK.TEMPLATE}${Router.activeRoute.module}`);
       }
       await ModuleLoader.loadTemplate(route.module, Router.container);
+
+      // customElements.forEach((config) => {
+      //   new CustomComponent(config);
+      // });
       Router.activeRoute = route;
     } catch (e) {
       logger.error(`Failed to route to '${route.route}' due to cause:`, e);
