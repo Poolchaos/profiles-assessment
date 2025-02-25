@@ -1,3 +1,20 @@
-.test {
-  background: red;
+@use '../../styles/variables';
+
+nav-bar {
+  nav {
+    background-color: variables.$navbar-bg;
+    color: variables.$navbar-text;
+
+    .icon {
+      color: variables.$navbar-text;
+    }
+
+    button {
+      padding: variables.$navbar-button-padding;
+      border: 1px solid variables.$button-border;
+      border-radius: variables.$navbar-button-border-radius;
+      color: variables.$navbar-text;
+      background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
+    }
+  }
 }

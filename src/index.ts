@@ -1,6 +1,8 @@
 import { customElements } from './components';
 import { Flaapworks, Logger } from './scripts/flaapworks';
 
+import './main.scss';
+
 (async function () {
   Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
   const logger = new Logger('Index');
