@@ -2,8 +2,6 @@ import { Lifecycle } from './lifecycle';
 import { Constants } from '../constants/constants';
 import Logger from './logger';
 import { ModuleLoader } from './module-loader';
-import { customElements } from '../components';
-import { CustomComponent } from './custom-element';
 
 const logger = new Logger('Routing');
 
@@ -20,6 +18,10 @@ export class Router {
 
   public static async configure(routes: IRoute[]): Promise<any> {
     const container: HTMLElement = document.querySelector(`${Constants.FRAMEWORK.ROUTER}:not([${Constants.FRAMEWORK.ROUTER}-template])`);
+    if (!container) {
+      logger.error('Router container not found');
+      return;
+    }
     Router.container = container;
     Router.routes = routes;
 

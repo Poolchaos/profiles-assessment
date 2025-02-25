@@ -9,16 +9,16 @@ export class Navbar extends ViewLifecycle {
     { name: 'Profiles', icon: 'users', route: 'profiles' },
     { name: 'Favourites', icon: 'star', route: 'favourites' },
     { name: 'My Matches', icon: 'heart', route: 'my-matches' },
-    { name: 'Mailbox', icon: 'envelope', route: 'mailbox' },
-    { name: 'Buy credits', icon: 'money-bill', route: 'buy-credits' },
+    { name: 'Mailbox', icon: 'envelope', route: 'mailbox', count: 9 },
+    { name: 'Buy credits', icon: 'money-bill-1', route: 'buy-credits' },
   ];
 
   constructor() {
     super();
-    console.log(' ::>> navbar >>>>>> ');
   }
 
   public navTo(route: string): void {
+    console.log(' ::>> route >>>>>> ', route);
     Router.navigate(route);
   }
 }

@@ -9,6 +9,13 @@
         <a class="link">
           <i class="icon fa-solid fa-${item.icon} fa-sm"></i>
           ${item.name}
+
+          <div
+            class="count"
+            fl-if="item.count"
+          >
+            ${item.count}
+          </div>
         </a>
       </li>
     </ul>

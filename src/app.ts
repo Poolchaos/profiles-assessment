@@ -12,7 +12,7 @@ export class App extends ViewLifecycle {
   protected attached(): void {
     Router.configure([
       {
-        route: ['', 'profile-overview'], //
+        route: ['', 'profiles'], //
         module: 'views/profile-overview/profile-overview',
         uri: 'Flaapworks',
       },

@@ -8,6 +8,7 @@ export const Constants = {
       CLICK_TEMPLATE: 'data-click-trigger',
       REPEAT: 'fl-repeat',
       REPEAT_TEMPLATE: 'data-fl-repeat',
+      IF: 'fl-if',
     },
   },
 

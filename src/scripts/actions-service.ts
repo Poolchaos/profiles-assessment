@@ -4,18 +4,15 @@ import { Constants } from '../constants/constants';
 const logger = new Logger('ActionsService');
 
 export class ActionsService {
-  public static async matchActions(action: any, viewModel: any, el: any, attr: string): Promise<any> {
+  public static async matchActions(action: string, viewModel: any, el: HTMLElement, attr: string, item?: any): Promise<any> {
     try {
-      for (const prop in viewModel) {
-        const value = viewModel[prop];
-        if (!action && action !== '') {
-          return;
-        }
-        switch (attr) {
-          case Constants.FRAMEWORK.ATTRIBUTES.CLICK:
-            ActionsService.addClickCallback(action, prop, el, value, attr);
-            break;
-        }
+      if (!action || typeof action !== 'string') {
+        return;
+      }
+      switch (attr) {
+        case Constants.FRAMEWORK.ATTRIBUTES.CLICK:
+          ActionsService.addClickCallback(action, viewModel, el, item);
+          break;
       }
       return true;
     } catch (e) {
@@ -23,21 +20,49 @@ export class ActionsService {
     }
   }
 
-  private static addClickCallback(action: string, prop: string, el: HTMLElement, value: string, attr: string): void {
-    ActionsService.tryAddCallbackEvent('click', action, prop, el, value, attr);
+  private static addClickCallback(action: string, viewModel: any, el: HTMLElement, item?: any): void {
+    const match = action.match(/(\w+)\((.*)\)/);
+    if (!match) {
+      logger.error(`Invalid fl-click action: "${action}"`);
+      return;
+    }
+    const [_, methodName, argExpr] = match;
+
+    const method = viewModel[methodName];
+    if (typeof method !== 'function') {
+      logger.error(`Method "${methodName}" not found in viewModel`);
+      return;
+    }
+
+    el.addEventListener('click', () => {
+      try {
+        const argValue = this.evaluateExpression(argExpr, item);
+        method(argValue);
+      } catch (e) {
+        logger.error(`Failed to execute "${action}" due to:`, e);
+      }
+    });
   }
 
-  public static async tryAddCallbackEvent(eventType: string, action: string, prop: string, el: HTMLElement, value: any, attr: string): Promise<any> {
-    if (action.includes('(') && action.includes(')') && prop === action.replace('()', '')) {
-      el.addEventListener(eventType, (event: Event) => {
-        try {
-          value(event);
-        } catch (e) {
-          logger.error(`Failed to bind callback to ${action} due to cause:`, e);
-        }
-      });
-      return true;
+  private static evaluateExpression(expr: string, item: any): any {
+    if (!item) {
+      logger.error('No item context provided; returning expression as-is:', expr);
+      return expr;
     }
-    return false;
+
+    if (expr.startsWith('item.')) {
+      expr = expr.substring(5);
+    }
+
+    const parts = expr.split('.');
+    let value = item;
+    for (const part of parts) {
+      value = value[part];
+      if (value === undefined) {
+        logger.error(`Invalid expression: "${expr}" for item:`, item);
+        return '';
+      }
+    }
+    return value;
   }
 }

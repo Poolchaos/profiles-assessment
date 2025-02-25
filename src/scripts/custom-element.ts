@@ -25,6 +25,7 @@ class CustomElement {
 
   constructor(config: CustomElementConfig) {
     this.setupUsables(config);
+    console.log(' ::>> init >>>>> ', this);
     this.findInstances();
   }
 
