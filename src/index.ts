@@ -1,4 +1,4 @@
-import { Flaapworks, Logger } from './scripts/flaapworks';
+import { CustomElementConfig, Flaapworks, Logger } from './scripts/flaapworks';
 
 (async function () {
   Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
@@ -10,5 +10,16 @@ import { Flaapworks, Logger } from './scripts/flaapworks';
   logger.debug('initialising app');
   await Flaapworks.enableRouter();
   await Flaapworks.initialise();
+
+  const customElements: CustomElementConfig[] = [
+    {
+      tagName: 'navbar',
+      template: '/components/navbar/navbar.html',
+      viewModel: '/components/navbar/navbar.ts',
+    },
+  ];
+
+  Flaapworks.defineCustomElements(customElements);
+
   logger.exclaim('FLAAP-APP INITALISED');
 })();

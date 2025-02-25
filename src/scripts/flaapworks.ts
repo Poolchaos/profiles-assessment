@@ -2,6 +2,7 @@ import Logger from './logger';
 import { ViewLifecycle } from './lifecycle-base';
 import { ModuleLoader } from './module-loader';
 import { Router } from './router';
+import { CustomComponent, CustomElementConfig } from './custom-element';
 
 Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
 const logger = new Logger('Flaapworks');
@@ -26,5 +27,15 @@ class Flaapworks {
     this.router = new Router();
     return Flaapworks;
   }
+
+  public static defineCustomElements(configs: CustomElementConfig[]): void {
+    configs.forEach((config) => {
+      try {
+        new CustomComponent(config);
+      } catch (error) {
+        logger.error(`Failed to define custom element '${config.tagName}':`, error);
+      }
+    });
+  }
 }
-export { Flaapworks, ViewLifecycle, Logger, Router };
+export { Flaapworks, ViewLifecycle, Logger, Router, CustomElementConfig };

@@ -1,5 +1,5 @@
 import { Logger, Router, ViewLifecycle } from './scripts/flaapworks';
-// const logger = new Logger('App');
+const logger = new Logger('App');
 
 export class App extends ViewLifecycle {
   public test: string = 'says hello';

@@ -6,6 +6,7 @@ const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 // config helpers:
 const ensureArray = (config) => (config && (Array.isArray(config) ? config : [config])) || [];
@@ -122,6 +123,9 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
     new ESLintPlugin({
       extensions: ['ts', 'js'],
       fix: false,
+    }),
+    new CopyPlugin({
+      patterns: [{ from: 'src/components', to: 'components' }],
     }),
     new DuplicatePackageCheckerPlugin(),
     new HtmlWebpackPlugin({
