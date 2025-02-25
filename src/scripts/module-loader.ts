@@ -11,8 +11,8 @@ export class ModuleLoader {
 
   public static async initialise(): Promise<any> {
     try {
-      let container: HTMLElement = document.querySelector(`body[${Constants.FRAMEWORK.ENTRY}]`);
-      let entry: string = container.getAttribute(`${Constants.FRAMEWORK.ENTRY}`);
+      const container: HTMLElement = document.querySelector(`body[${Constants.FRAMEWORK.ENTRY}]`);
+      const entry = container.getAttribute(`${Constants.FRAMEWORK.ENTRY}`);
       await this.loadTemplate(entry, container);
       return true;
     } catch (e) {
@@ -22,10 +22,10 @@ export class ModuleLoader {
 
   public static async loadTemplate(moduleName: string, container: HTMLElement): Promise<any> {
     try {
-      let templateId: string = `${Constants.FRAMEWORK.TEMPLATE}${moduleName}`;
+      const templateId: string = `${Constants.FRAMEWORK.TEMPLATE}${moduleName}`;
       if (ModuleLoader.existingModuleRendered(moduleName, container, templateId)) return true;
-      let template: HTMLElement = await RequestService.parseFetchedXml(moduleName, templateId);
-      let viewModel: any = await ModuleLoader.fetchViewModel(moduleName, template);
+      const template: HTMLElement = await RequestService.parseFetchedXml(moduleName, templateId);
+      const viewModel: any = await ModuleLoader.fetchViewModel(moduleName, template);
       await ModuleLoader.renderTemplate(template, container);
       await ModuleLoader.renderModule(templateId, viewModel);
       return true;
@@ -43,17 +43,17 @@ export class ModuleLoader {
   }
 
   private static async rerenderModule(moduleName: string, templateId: string, container: HTMLElement): Promise<any> {
-    let template: HTMLElement = await RequestService.parseXmlString(moduleName, templateId, ModuleLoader.templates[templateId].template);
+    const template: HTMLElement = await RequestService.parseXmlString(moduleName, templateId, ModuleLoader.templates[templateId].template);
     await ModuleLoader.renderTemplate(template, container);
     await ModuleLoader.renderModule(templateId, ModuleLoader.templates[templateId].viewModel);
     return true;
   }
 
   private static fetchViewModel(moduleName: string, template: HTMLElement): void {
-    let ts = RequestService.fetch(moduleName).asTs();
+    const ts = RequestService.fetch(moduleName).asTs();
     try {
-      for (let _class in ts) {
-        if (ts.hasOwnProperty(_class) && typeof ts[_class] === 'function') {
+      for (const _class in ts) {
+        if (Object.prototype.hasOwnProperty.call(ts, _class) && typeof ts[_class] === 'function') {
           return ts[_class];
         }
       }
@@ -81,9 +81,9 @@ export class ModuleLoader {
 
   private static async renderModule(templateId: string, viewModel: any): Promise<any> {
     try {
-      let template: any = document.querySelector(`[id="${templateId}"]`);
-      let templateHtml = template.innerHTML;
-      let module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
+      const template: any = document.querySelector(`[id="${templateId}"]`);
+      const templateHtml = template.innerHTML;
+      const module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
       await Lifecycle.activate(templateId);
       await ModuleLoader.renderTemplateBindings(template, module.templateHtml);
       await ModuleLoader.tryDestroyRenderedTemplate(templateId);
@@ -103,7 +103,7 @@ export class ModuleLoader {
 
   private static tryDestroyRenderedTemplate(templateId: string): void {
     try {
-      let template = document.querySelector(`[id="${templateId}"]`);
+      const template = document.querySelector(`[id="${templateId}"]`);
       template.remove();
     } catch (e) {
       logger.error('Failed to remove rendered template due to cause:', e);

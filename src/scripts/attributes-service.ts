@@ -8,7 +8,7 @@ export class AttributesService {
   private static flaapAttributes: string[] = [Constants.FRAMEWORK.ATTRIBUTES.CLICK];
 
   public static async bindAttributes(viewModel: any): Promise<any> {
-    for (let attr of AttributesService.flaapAttributes) {
+    for (const attr of AttributesService.flaapAttributes) {
       await AttributesService.findCustomAttributes(attr, viewModel);
     }
     return true;
@@ -16,9 +16,9 @@ export class AttributesService {
 
   private static async findCustomAttributes(attr: string, viewModel: any): Promise<any> {
     try {
-      let el: any = document.querySelector(`[${attr}]`);
+      const el: any = document.querySelector(`[${attr}]`);
       if (el) {
-        let action = el.getAttribute(`${attr}`);
+        const action = el.getAttribute(`${attr}`);
         el.removeAttribute(attr);
         await ActionsService.matchActions(action, viewModel, el, attr);
         return AttributesService.findCustomAttributes(attr, viewModel);

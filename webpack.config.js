@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 // config helpers:
 const ensureArray = (config) => (config && (Array.isArray(config) ? config : [config])) || [];
@@ -118,6 +119,10 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
     ],
   },
   plugins: [
+    new ESLintPlugin({
+      extensions: ['ts', 'js'],
+      fix: false,
+    }),
     new DuplicatePackageCheckerPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.ejs',
@@ -129,11 +134,6 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
       filename: production ? '[name].[contenthash].bundle.css' : '[name].[fullhash].bundle.css',
       chunkFilename: production ? '[name].[contenthash].chunk.css' : '[name].[fullhash].chunk.css',
     }),
-    // new CopyWebpackPlugin({
-    //   patterns: [
-    //     { from: 'static', to: outDir, globOptions: { ignore: ['.*'] } },
-    //   ],
-    // }),
     ...when(analyze, new BundleAnalyzerPlugin()),
     new CleanWebpackPlugin(),
   ],

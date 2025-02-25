@@ -6,9 +6,8 @@ const logger = new Logger('ActionsService');
 export class ActionsService {
   public static async matchActions(action: any, viewModel: any, el: any, attr: string): Promise<any> {
     try {
-      let actionFound = false;
-      for (let prop in viewModel) {
-        let value = viewModel[prop];
+      for (const prop in viewModel) {
+        const value = viewModel[prop];
         if (!action && action !== '') {
           return;
         }

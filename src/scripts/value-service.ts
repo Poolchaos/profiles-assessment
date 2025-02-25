@@ -1,14 +1,17 @@
+import Logger from './logger';
+
+const logger = new Logger('ValueService');
+
 export class ValueService {
-  
   public static async bindBindableValues(htmlString: string, viewModel: any): Promise<any> {
-    for(let prop in viewModel) {
-      if(viewModel.hasOwnProperty(prop) && typeof viewModel[prop] !== 'function') {
-        let bindableExpressionBraces = new RegExp('\\${' + prop + '}', 'g');
-        let bindableExpressionString = new RegExp('"' + prop + '"', 'g');
-        if(htmlString.match(bindableExpressionBraces)) {
+    for (const prop in viewModel) {
+      if (Object.prototype.hasOwnProperty.call(viewModel, prop) && typeof viewModel[prop] !== 'function') {
+        const bindableExpressionBraces = new RegExp('\\${' + prop + '}', 'g');
+        const bindableExpressionString = new RegExp('"' + prop + '"', 'g');
+        if (htmlString.match(bindableExpressionBraces)) {
           htmlString = htmlString.replace(bindableExpressionBraces, viewModel[prop]);
         }
-        if(htmlString.match(bindableExpressionString)) {
+        if (htmlString.match(bindableExpressionString)) {
           htmlString = htmlString.replace(bindableExpressionString, viewModel[prop]);
         }
       }
@@ -18,14 +21,16 @@ export class ValueService {
 
   public static async tryAddValueBinding(action: string, prop: string, el: HTMLElement, value: any, attr: string): Promise<any> {
     try {
-      if(action.includes('(') && action.includes(')')) {
+      if (action.includes('(') && action.includes(')')) {
         return false;
       }
-      if(prop === action) {
+      if (prop === action) {
         el.setAttribute(attr, value);
         return true;
       }
       return false;
-    } catch(e) {}
+    } catch (e) {
+      logger.error('Failed to add value binding for attribute due to', e);
+    }
   }
 }

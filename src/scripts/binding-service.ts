@@ -3,10 +3,8 @@ import { ValueService } from './value-service';
 import { RepeaterService } from './repeater-service';
 import Logger from './logger';
 
-import { ActionsService } from './actions-service';
 import { TagsService } from './tags-service';
 import { ModuleLoader } from './module-loader';
-import { RequestService } from './request-service';
 
 const logger = new Logger('BindingService');
 

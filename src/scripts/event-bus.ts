@@ -23,6 +23,7 @@ export class Eventing {
       eventName,
       async (data: any) => {
         await Eventing.unsubscribe(eventName, subscriberId);
+        callback && callback(data);
         Promise.resolve();
       },
       subscriberId
@@ -37,9 +38,9 @@ export class Eventing {
       timestamp: Date.now(),
     };
     try {
-      for (let subscriber in Eventing.handlers[event]) {
-        if (Eventing.handlers[event].hasOwnProperty(subscriber)) {
-          Eventing.handlers[event][subscriber](payload);
+      for (const subscriber in Eventing.handlers[event]) {
+        if (Object.prototype.hasOwnProperty.call(Eventing.handlers[event], subscriber)) {
+          Eventing.handlers[event][subscriber](_message);
         }
       }
     } catch (e) {

@@ -9,6 +9,8 @@ export class Router {
   public static routes: IRoute[];
   private static container: HTMLElement;
   private static activeRoute: IRoute;
+
+  // Not implemented yet
   private static previousRoute: IRoute;
   private static nextRoute: IRoute;
   private static canNavigateNext: boolean;
