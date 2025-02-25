@@ -45,6 +45,7 @@
     "micromatch": "^4.0.0"
   },
   "dependencies": {
+    "jquery": "^3.7.1",
     "promise-polyfill": "^8.3.0",
     "raw-loader": "^4.0.2",
     "uuid": "^11.1.0"

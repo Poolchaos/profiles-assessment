@@ -12,7 +12,6 @@ export class ModuleLoader {
   public static async initialise(): Promise<any> {
     try {
       let container: HTMLElement = document.querySelector(`body[${Constants.FRAMEWORK.ENTRY}]`);
-      logger.info(' ::>> container >>>>> ', container, Constants.FRAMEWORK.ENTRY);
       let entry: string = container.getAttribute(`${Constants.FRAMEWORK.ENTRY}`);
       await this.loadTemplate(entry, container);
       return true;
@@ -36,7 +35,6 @@ export class ModuleLoader {
   }
 
   private static existingModuleRendered(moduleName: string, container: HTMLElement, templateId: string): any {
-    console.log(' ::>> render module >>>>>> ', moduleName, ModuleLoader.templates[templateId]);
     if (ModuleLoader.templates[templateId]) {
       ModuleLoader.rerenderModule(moduleName, templateId, container);
       return true;
@@ -45,7 +43,6 @@ export class ModuleLoader {
   }
 
   private static async rerenderModule(moduleName: string, templateId: string, container: HTMLElement): Promise<any> {
-    console.log(' ::>> render module >>>>>> ', moduleName);
     let template: HTMLElement = await RequestService.parseXmlString(moduleName, templateId, ModuleLoader.templates[templateId].template);
     await ModuleLoader.renderTemplate(template, container);
     await ModuleLoader.renderModule(templateId, ModuleLoader.templates[templateId].viewModel);
@@ -66,7 +63,6 @@ export class ModuleLoader {
   }
 
   public static storeTemplate(templateId: string, template: string, viewModel: any): boolean {
-    console.log(' ::>> storeTemplate >>>>> ', templateId, template, viewModel);
     try {
       if (ModuleLoader.templates[templateId]) {
         throw new Error(`Duplicate module '${templateId.replace(`${Constants.FRAMEWORK.TEMPLATE}`, '')}' detected`);
@@ -79,7 +75,6 @@ export class ModuleLoader {
   }
 
   private static renderTemplate(template: HTMLElement, container: HTMLElement): boolean {
-    console.log(' ::>> -------------------------------------------------- template = ', { template, container });
     container.appendChild(template);
     return true;
   }
@@ -87,7 +82,6 @@ export class ModuleLoader {
   private static async renderModule(templateId: string, viewModel: any): Promise<any> {
     try {
       let template: any = document.querySelector(`[id="${templateId}"]`);
-      console.log(' ::>> template >>>>+++++++++ ', template, templateId);
       let templateHtml = template.innerHTML;
       let module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
       await Lifecycle.activate(templateId);

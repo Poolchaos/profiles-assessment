@@ -1,17 +1,13 @@
 import Logger from './logger';
 import { ViewLifecycle } from './lifecycle-base';
 import { ModuleLoader } from './module-loader';
+import { Router } from './router';
 
 Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
 const logger = new Logger('Flaapworks');
 
-const Router = {
-  configure: (data: any[]) => {},
-  navigate: (route: string) => {},
-};
-
 class Flaapworks {
-  public static router: typeof Router;
+  public static router: Router;
 
   constructor() {
     logger.debug('This is my test log');
@@ -27,8 +23,8 @@ class Flaapworks {
   }
 
   public static async enableRouter(): Promise<any> {
-    this.router = Router;
+    this.router = new Router();
     return Flaapworks;
   }
 }
-export { Flaapworks, ViewLifecycle, Logger };
+export { Flaapworks, ViewLifecycle, Logger, Router };

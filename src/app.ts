@@ -1,4 +1,4 @@
-import { Flaapworks, Logger, ViewLifecycle } from './scripts/flaapworks';
+import { Flaapworks, Logger, Router, ViewLifecycle } from './scripts/flaapworks';
 
 const logger = new Logger('App');
 
@@ -10,18 +10,17 @@ export class App extends ViewLifecycle {
   }
 
   protected attached(): void {
-    console.log(' ::>>  app loaded ------------------------------------- ');
-    // Flaapworks.router.configure([
-    //   { route: ['', 'home'], module: 'views/home/home', uri: 'Flaapworks' },
-    //   { route: 'members', module: 'views/members/members', uri: 'Members' },
-    // ]);
+    Router.configure([
+      { route: ['', 'profile-overview'], module: 'views/profile-overview/profile-overview', uri: 'Flaapworks' },
+      { route: 'single-profile', module: 'views/single-profile/single-profile', uri: 'single-profile' },
+    ]);
   }
 
-  public home(): void {
-    Flaapworks.router.navigate('desktop');
+  public navigateToProfileOverview(): void {
+    Router.navigate('profile-overview');
   }
 
-  public pageTwo(): void {
-    Flaapworks.router.navigate('page-two');
+  public navigateToSingleProfile(): void {
+    Router.navigate('single-profile');
   }
 }
