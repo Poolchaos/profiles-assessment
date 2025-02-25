@@ -30,7 +30,6 @@ export class ActionsService {
 
     const method = viewModel[methodName];
     if (typeof method !== 'function') {
-      logger.error(`Method "${methodName}" not found in viewModel`);
       return;
     }
 
@@ -46,7 +45,6 @@ export class ActionsService {
 
   private static evaluateExpression(expr: string, item: any): any {
     if (!item) {
-      logger.error('No item context provided; returning expression as-is:', expr);
       return expr;
     }
 

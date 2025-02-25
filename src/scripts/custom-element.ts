@@ -1,14 +1,9 @@
 import { ModuleLoader } from './module-loader';
 import { v4 as uuidv4 } from 'uuid';
-import $ from 'jquery';
 import Logger from './logger';
-import { RequestService } from './request-service';
-import { AttributesService } from './attributes-service';
 
 const __custom_elements__: { [tagName: string]: CustomElement } = {};
 const logger = new Logger('CustomElementConfig');
-
-// todo: cater for use of components within the router
 
 export interface CustomElementConfig {
   tagName: string;
@@ -20,12 +15,9 @@ class CustomElement {
   private hosts: { [id: string]: HTMLElement };
   private tagName: string;
   private module: string;
-  // private template: string;
-  // private viewModel: string;
 
   constructor(config: CustomElementConfig) {
     this.setupUsables(config);
-    console.log(' ::>> init >>>>> ', this);
     this.findInstances();
   }
 
@@ -34,8 +26,6 @@ class CustomElement {
     this.hosts = {};
     this.tagName = config.tagName;
     this.module = config.module;
-    // this.template = config.template;
-    // this.viewModel = config.viewModel;
   }
 
   private findInstances(): void {

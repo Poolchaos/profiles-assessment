@@ -17,7 +17,6 @@ export class RepeaterService {
   public static renderRepeatableItems(viewModel: any, arrayName: string, itemVar: string, templateEl?: HTMLElement): void {
     const itemsArray = viewModel[arrayName];
     if (!Array.isArray(itemsArray)) {
-      logger.error(`"${arrayName}" is not an array in viewModel`);
       return;
     }
 
@@ -33,9 +32,6 @@ export class RepeaterService {
     const parent = templateEl.parentNode;
     const existingItems = parent.querySelectorAll(`[data-repeat="${arrayName}"]`);
     existingItems.forEach((item) => item.remove());
-    if (arrayName === 'menuItems') {
-      console.log(' ::>> checking array data in viewmodel >>>>> ', { viewModel, arrayData: viewModel[arrayName], arrayName });
-    }
 
     itemsArray.forEach((item) => {
       const clone = templateEl.cloneNode(true) as HTMLElement;

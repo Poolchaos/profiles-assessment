@@ -86,7 +86,6 @@ export class ModuleLoader {
       const template: any = document.querySelector(`[id="${templateId}"]`);
       const templateHtml = template.innerHTML;
       const module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
-      console.log(' ::>> load new module >>>>>> ');
       await Lifecycle.activate(templateId);
       await ModuleLoader.renderTemplateBindings(template, module.templateHtml);
       await ModuleLoader.tryDestroyRenderedTemplate(templateId);

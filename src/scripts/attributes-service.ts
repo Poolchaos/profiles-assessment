@@ -20,7 +20,6 @@ export class AttributesService {
       if (el) {
         const action = el.getAttribute(`${attr}`);
         el.removeAttribute(attr);
-        console.log(' ::>> viewModel > ', viewModel);
         await ActionsService.matchActions(action, viewModel, el, attr);
         return AttributesService.findCustomAttributes(attr, viewModel);
       }

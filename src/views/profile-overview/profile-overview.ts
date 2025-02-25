@@ -13,7 +13,6 @@ export class ProfileOverview extends ViewLifecycle {
   constructor() {
     super();
     this.profiles = this.makeArrayReactive('profiles', [], 'profile');
-    console.log(' ::>> profile overview loaded ');
   }
 
   protected activate(): void {
@@ -25,7 +24,6 @@ export class ProfileOverview extends ViewLifecycle {
       const response = await httpService.get<{ profiles: Profile[] }>('profiles');
       this.profiles.length = 0;
       response.profiles.forEach((profile) => this.profiles.push(profile));
-      console.log(' ::>> this.profiles >>>>> ', this.profiles);
       logger.debug('Profiles loaded successfully', this.profiles);
     } catch (error) {
       logger.error('Failed to load profiles', error);

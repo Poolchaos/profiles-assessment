@@ -18,7 +18,6 @@ export class Navbar extends ViewLifecycle {
   }
 
   public navTo(route: string): void {
-    console.log(' ::>> route >>>>>> ', route);
     Router.navigate(route);
   }
 }
