@@ -106,6 +106,21 @@ module.exports = ({ production }, { analyze, hmr, port, host }) => ({
         issuer: /\.html$/i,
         use: cssRules(false),
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                quiet: true,
+              },
+            },
+          },
+        ],
+      },
       { test: /\.html$/i, loader: 'html-loader', options: { minimize: false } },
       { test: /\.ts$/, loader: 'ts-loader' },
       {
