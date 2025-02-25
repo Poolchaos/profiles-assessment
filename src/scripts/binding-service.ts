@@ -33,6 +33,7 @@ export class BindingService {
   }
 
   public static async templateRepeatableItems(viewModel: any): Promise<any> {
+    console.log(' ::>> bindingservicetemplateRepeatableItems >>>> ', viewModel);
     await RepeaterService.templateRepeatableItems(viewModel);
   }
 

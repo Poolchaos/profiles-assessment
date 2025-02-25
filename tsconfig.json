@@ -14,7 +14,8 @@
     "baseUrl": "src",
     "resolveJsonModule": true,
     "importHelpers": true,
-    "allowJs": true
+    "allowJs": true,
+    "downlevelIteration": true
   },
   "include": ["src/**/*", "test/**/*", "scripts/**/*"],
   "exclude": ["postcss.config.js", "./tailwind.config.js", "./webpack.config.js", "webpack.config.js"],

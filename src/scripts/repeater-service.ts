@@ -1,43 +1,73 @@
 import { Constants } from '../constants/constants';
 import Logger from './logger';
-import { ActionsService } from './actions-service';
 
 const logger = new Logger('RepeaterService');
 
 export class RepeaterService {
   public static async templateRepeatableItems(viewModel: any): Promise<any> {
-    const attr = Constants.FRAMEWORK.ATTRIBUTES.REPEAT;
-    const el: HTMLElement = document.querySelector(`[${attr}]`);
-    if (!el) return true;
-    try {
-      const action = el.getAttribute(`${attr}`);
-      const matched = await ActionsService.matchActions(action, viewModel, el, attr);
-      const value = el.getAttribute(attr);
-      el.removeAttribute(attr);
-      el.setAttribute(Constants.FRAMEWORK.ATTRIBUTES.REPEAT_TEMPLATE, value);
-      if (matched) {
-        await RepeaterService.templateRepeatableItems(viewModel);
-        return RepeaterService.renderRepeatableItems();
-      }
-    } catch (e) {
-      logger.error('Failed to render repeaters due to cause:', e);
-    }
-  }
+    const repeatAttr = Constants.FRAMEWORK.ATTRIBUTES.REPEAT;
+    const elements = document.querySelectorAll(`[${repeatAttr}]`);
+    if (!elements.length) return true;
 
-  public static async renderRepeatableItems(): Promise<any> {
     try {
-      const els: any = document.querySelectorAll(`[${Constants.FRAMEWORK.ATTRIBUTES.REPEAT_TEMPLATE}]`);
-      for (const el of els) {
-        const repeatValue = parseInt(el.getAttribute(`${Constants.FRAMEWORK.ATTRIBUTES.REPEAT_TEMPLATE}`)) - 1;
-        for (let index = 0; index < repeatValue; index++) {
-          await el.removeAttribute(`${Constants.FRAMEWORK.ATTRIBUTES.REPEAT_TEMPLATE}`);
-          const clone = el.cloneNode(true);
-          await el.parentNode.insertBefore(clone, el);
+      for (const el of elements) {
+        const repeatValue = el.getAttribute(repeatAttr);
+        const [itemVar, arrayName] = this.parseRepeatValue(repeatValue);
+        const itemsArray = viewModel[arrayName];
+
+        if (!itemsArray || !Array.isArray(itemsArray)) {
+          logger.error(`Array "${arrayName}" not found or not an array in viewModel`);
+          continue;
         }
+
+        const parent = el.parentNode;
+        itemsArray.forEach((item: any) => {
+          const clone = el.cloneNode(true) as HTMLElement;
+          clone.removeAttribute(repeatAttr);
+          this.replacePlaceholders(clone, itemVar, item);
+          this.bindEvents(clone, viewModel, itemVar, item);
+          parent.insertBefore(clone, el);
+        });
+        el.remove();
       }
       return true;
     } catch (e) {
-      logger.error('Failed to find draggable elements', e);
+      logger.error('Failed to render repeaters due to cause:', e);
+      return false;
+    }
+  }
+
+  private static parseRepeatValue(value: string): [string, string] {
+    const parts = value.split(' of ');
+    if (parts.length !== 2) {
+      throw new Error(`Invalid fl-repeat syntax: "${value}". Use "variable of arrayName"`);
+    }
+    return [parts[0].trim(), parts[1].trim()];
+  }
+
+  private static replacePlaceholders(el: HTMLElement, itemVar: string, item: any): void {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      node.textContent = node.textContent.replace(new RegExp(`\\$\\{${itemVar}\\.(\\w+)\\}`, 'g'), (match, prop) => item[prop] || '');
+    }
+  }
+
+  private static bindEvents(el: HTMLElement, viewModel: any, itemVar: string, item: any): void {
+    const clickAttr = Constants.FRAMEWORK.ATTRIBUTES.CLICK;
+    if (el.hasAttribute(clickAttr)) {
+      const action = el.getAttribute(clickAttr);
+      const [funcName, argPart] = action.split('(');
+      const arg = argPart.replace(')', '').trim();
+      const prop = arg.replace(`${itemVar}.`, '');
+      el.addEventListener('click', () => {
+        if (typeof viewModel[funcName] === 'function') {
+          viewModel[funcName](item[prop]);
+        } else {
+          logger.error(`Function "${funcName}" not found in viewModel`);
+        }
+      });
+      el.removeAttribute(clickAttr);
     }
   }
 }

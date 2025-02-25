@@ -1,6 +1,7 @@
 <template>
   <nav class="p-2">
-    i am the navbar ${value}
-    </div>
+    <ul>
+      <li fl-repeat="item of menuItems" fl-click="navTo(item.route)"><i class="${item.icon}"></i> ${item.name}</li>
+    </ul>
   </nav>
 </template>
