@@ -54,24 +54,11 @@ class CustomElement {
   }
 
   private renderSingleElement(el: HTMLElement): void {
-    console.log(' ::>> el >>>> ', el, this.module);
     const _id = uuidv4();
     this.addHost(_id, el);
     this.createShadowDom(_id).then(async () => {
       const container: HTMLElement = document.querySelector(el.tagName.toLowerCase());
       ModuleLoader.loadTemplate(this.module, container);
-      // $(this.shadowRoots[_id]).load(this.template, async () => {
-      //   const jsContent = await RequestService.fetch(this.viewModel).asJs();
-      //   logger.info('jsContent type:', typeof jsContent, 'content:', jsContent);
-      //   try {
-      //     const script = document.createElement('script');
-      //     script.type = 'module';
-      //     script.text = jsContent;
-      //     this.shadowRoots[_id].appendChild(script);
-      //   } catch (e) {
-      //     logger.error('errored due to ', e);
-      //   }
-      // });
     });
   }
 

@@ -1,10 +1,10 @@
 import { ViewLifecycle } from '../../scripts/lifecycle-base';
 
-console.log('+++++++++++++++++++++++++++++++++++++++++++');
 export class Navbar extends ViewLifecycle {
   value = 'text value';
 
-  coonstructor() {
+  constructor() {
+    super();
     console.log(' ::>> navbar >>>>>> ');
   }
 }
