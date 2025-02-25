@@ -4,8 +4,8 @@
 
 nav-bar {
   nav {
-    background-color: variables.$navbar-bg;
     color: variables.$navbar-text;
+    background: linear-gradient(to bottom, variables.$button-bg-top-dark, variables.$button-bg-bottom-dark);
 
     .menu {
       display: flex;
@@ -16,10 +16,17 @@ nav-bar {
 
     .item {
       color: variables.$navbar-text;
-      @extend .p-2;
+      border: variables.$button-border;
+      padding: 18px;
+
+      border-top: 1px solid variables.$button-border-medium;
+      border-right: 1px solid variables.$button-border-dark;
+      border-bottom: 1px solid variables.$button-border-dark;
+      border-left: 1px solid variables.$button-border-light;
 
       .icon {
         margin-right: 0.5rem;
+        margin-top: 0.2rem;
       }
 
       a.link {
@@ -27,6 +34,7 @@ nav-bar {
         align-items: center;
         text-decoration: none;
         color: inherit;
+        font-size: 1rem;
 
         &:hover {
           color: variables.$navbar-text;

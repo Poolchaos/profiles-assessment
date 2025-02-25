@@ -1,8 +1,11 @@
 <template>
   <div class="ui container">
     <h2 class="ui header">
-      <i class="users icon"></i>
-      <span class="content">All Profiles</span>
+      <span class="bottom-border">
+        <i class="users icon fa-solid fa-users fa-sm"></i>
+        <span class="content">All </span>
+      </span>
+      <span>profiles</span>
     </h2>
     <main
       class="ui cards"
@@ -21,7 +24,7 @@
         >
           <div class="star-icon">
             <i
-              class="star icon"
+              class="star icon fa-solid fa-star fa-2xs"
               aria-hidden="true"
             ></i>
           </div>
@@ -30,17 +33,17 @@
           <div class="header">${profile.name} (${profile.age})</div>
           <div class="extra content">
             <button
-              class="ui green button"
+              class="ui button flex green"
               aria-label="Message ${profile.name}"
             >
-              <i class="envelope icon"></i>
+              <i class="envelope icon fa-solid fa-envelope"></i>
               Message
             </button>
             <button
-              class="ui red button"
+              class="ui button flex red"
               aria-label="Flirt with ${profile.name}"
             >
-              <i class="heart icon"></i>
+              <i class="heart icon fa-solid fa-heart"></i>
               Flirt
             </button>
           </div>

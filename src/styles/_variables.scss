@@ -1,19 +1,28 @@
 // Colors
 $black: #000000;
+$gray: #333333;
 
 $navbar-bg: $black;
 $navbar-text: #ffffff;
-$button-border: #333333;
+$button-border: $gray;
+$button-border-lighter: #585858;
 $button-bg-top: #fefefe;
 $button-bg-bottom: #e7e7e7;
+$button-bg-top-dark: #303030;
+$button-bg-bottom-dark: #232323;
+$button-border-dark: #1b1b1b;
+$button-border-light: #595959;
+$button-border-medium: #404040;
 $icon-green: #3c763d;
 $icon-red: #a94442;
-$icon-gray: #333333;
-$text-content: #333333;
+$icon-gray: $gray;
+$text-content: $gray;
 $text-header: $black;
 $status-top: #7fda7f;
 $status-bottom: #03a903;
 $shadow-color: #dedede;
+$border-gray: #cccccc;
+$border-light-gray: #e4e4e4;
 
 // Other variables
 $navbar-button-padding: 14px 10px;

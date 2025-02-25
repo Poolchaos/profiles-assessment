@@ -9,8 +9,8 @@ export class Navbar extends ViewLifecycle {
     { name: 'Profiles', icon: 'users', route: 'profiles' },
     { name: 'Favourites', icon: 'star', route: 'favourites' },
     { name: 'My Matches', icon: 'heart', route: 'my-matches' },
-    { name: 'Mailbox', icon: 'enveloper', route: 'mailbox' },
-    { name: 'Buy credits', icon: 'money', route: 'buy-credits' },
+    { name: 'Mailbox', icon: 'envelope', route: 'mailbox' },
+    { name: 'Buy credits', icon: 'money-bill', route: 'buy-credits' },
   ];
 
   constructor() {

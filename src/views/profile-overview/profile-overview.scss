@@ -10,7 +10,16 @@
 }
 
 .ui.header {
-  font-weight: 200;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 1rem;
+  border-bottom: 1px solid variables.$border-light-gray;
+  padding-bottom: 0.5rem;
+
+  .bottom-border {
+    border-bottom: 2px solid variables.$black;
+    padding-bottom: 0.5rem;
+  }
 }
 
 .ui.card {
@@ -42,11 +51,13 @@
       right: 10px;
       width: 24px;
       height: 24px;
-      background-color: rgba(variables.$navbar-text, 0.8);
-      border-radius: 50%;
+      background-color: rgba(variables.$navbar-text, 1);
+      border-radius: 2px;
       display: flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid variables.$border-gray;
+      cursor: pointer;
 
       .star.icon {
         color: variables.$icon-gray;
@@ -55,7 +66,7 @@
   }
 
   .profile-footer {
-    padding: 1rem;
+    padding: 0.6rem;
     text-align: center;
 
     .header {
@@ -66,25 +77,23 @@
 
     .extra.content {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.2rem;
 
       .ui.button {
-        &.green {
-          background-color: variables.$icon-green;
-          color: variables.$navbar-text;
+        font-size: 0.7rem;
+        border: 1px solid variables.$border-gray;
+        background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
+        cursor: pointer;
 
-          &:hover {
-            background-color: color.adjust(variables.$icon-green, $lightness: -10%);
-          }
+        i.icon {
+          margin-right: 0.2rem;
         }
 
-        &.red {
-          background-color: variables.$icon-red;
-          color: variables.$navbar-text;
-
-          &:hover {
-            background-color: color.adjust(variables.$icon-red, $lightness: -10%);
-          }
+        &.green .icon {
+          color: green;
+        }
+        &.red .icon {
+          color: variables.$icon-red;
         }
       }
     }
