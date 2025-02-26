@@ -2,11 +2,18 @@ import Logger from '../scripts/logger';
 
 const logger = new Logger('Reactive');
 
-export function makeReactive<T>(array: T[], onChange: () => void): T[] {
-  return new Proxy(array, {
+export function makeReactive<T>(target: any, onChange: () => void): T {
+  return new Proxy(target, {
     set(target, property, value) {
+      if (property === '_viewModelId') {
+        target[property] = value;
+        return true;
+      }
+      const oldValue = target[property];
       target[property] = value;
-      onChange();
+      if (oldValue !== value) {
+        onChange();
+      }
       return true;
     },
     deleteProperty(target, property) {

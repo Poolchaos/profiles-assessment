@@ -1,15 +1,33 @@
 <template>
-  <nav>
-    <ul class="flex">
+  <nav aria-label="Main navigation">
+    <button
+      class="burger-btn"
+      fl-click="toggleMobileMenu()"
+      aria-label="Toggle mobile menu"
+      aria-expanded.bind="isMobileMenuOpen"
+    >
+      <i class="fa-solid fa-bars"></i> Menu
+    </button>
+
+    <ul
+      class="flex menu desktop-menu"
+      role="menubar"
+    >
       <li
         class="item"
         fl-repeat="item of menuItems"
         fl-click="navTo(item.route)"
+        role="menuitem"
       >
-        <a class="link">
-          <i class="icon fa-solid fa-${item.icon} fa-sm"></i>
+        <a
+          class="link"
+          href.bind="item.route"
+        >
+          <i
+            class="icon fa-solid fa-${item.icon} fa-sm"
+            aria-hidden="true"
+          ></i>
           ${item.name}
-
           <div
             class="count"
             fl-if="item.count"
@@ -19,5 +37,47 @@
         </a>
       </li>
     </ul>
+
+    <aside
+      class="mobile-menu"
+      fl-if="isMobileMenuOpen"
+      aria-label="Mobile navigation"
+    >
+      <button
+        class="close-btn"
+        fl-click="toggleMobileMenu()"
+        aria-label="Close mobile menu"
+      >
+        <i class="fa-solid fa-times"></i>
+      </button>
+      <ul
+        class="menu"
+        role="menubar"
+      >
+        <li
+          class="item"
+          fl-repeat="item of menuItems"
+          fl-click="navTo(item.route)"
+          role="menuitem"
+        >
+          <a
+            class="link"
+            href.bind="item.route"
+          >
+            <i
+              class="icon fa-solid fa-${item.icon} fa-sm"
+              aria-hidden="true"
+            ></i>
+            ${item.name}
+            <div
+              class="count"
+              fl-if="item.count"
+            >
+              ${item.count}
+            </div>
+          </a>
+        </li>
+      </ul>
+    </aside>
   </nav>
 </template>

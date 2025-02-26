@@ -84,13 +84,16 @@ export class ModuleLoader {
   private static async renderModule(templateId: string, viewModel: any): Promise<any> {
     try {
       const template: any = document.querySelector(`[id="${templateId}"]`);
-      const templateHtml = template.innerHTML;
+      const splitModuleId = templateId.split('/');
+      const tagName = splitModuleId[splitModuleId.length - 1];
+      const templateHtml = `<${tagName}>${template.innerHTML}</${tagName}>`;
       const module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
       await Lifecycle.activate(templateId);
       await ModuleLoader.renderTemplateBindings(template, module.templateHtml);
       await ModuleLoader.tryDestroyRenderedTemplate(templateId);
       await BindingService.templateRepeatableItems(module.viewModel);
-      await BindingService.bindAttributes(module.viewModel);
+      await BindingService.processIfConditions(module.viewModel);
+      await BindingService.bindAttributes(module.viewModel, tagName);
       await Lifecycle.attached(templateId);
       return true;
     } catch (e) {

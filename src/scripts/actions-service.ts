@@ -28,15 +28,15 @@ export class ActionsService {
     }
     const [_, methodName, argExpr] = match;
 
-    const method = viewModel[methodName];
-    if (typeof method !== 'function') {
-      return;
-    }
-
     el.addEventListener('click', () => {
+      const method = viewModel[methodName];
+      if (typeof method !== 'function') {
+        logger.error(`Method "${methodName}" not found on viewModel`);
+        return;
+      }
       try {
         const argValue = this.evaluateExpression(argExpr, item);
-        method(argValue);
+        method.call(viewModel, argValue);
       } catch (e) {
         logger.error(`Failed to execute "${action}" due to:`, e);
       }

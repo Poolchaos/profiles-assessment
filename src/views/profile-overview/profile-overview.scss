@@ -100,3 +100,12 @@
     }
   }
 }
+
+@media (max-width: 800px) {
+  .ui.card {
+    min-width: 150px;
+    max-width: 250px;
+    width: unset;
+    flex: 1;
+  }
+}

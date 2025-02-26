@@ -3,6 +3,11 @@ import Logger from './logger';
 
 const logger = new Logger('RepeaterService');
 
+// Extend HTMLElement to include _item
+export interface ExtendedHTMLElement extends HTMLElement {
+  _item?: any;
+}
+
 export class RepeaterService {
   public static async templateRepeatableItems(viewModel: any): Promise<void> {
     const repeatAttr = Constants.FRAMEWORK.ATTRIBUTES.REPEAT;
@@ -34,10 +39,11 @@ export class RepeaterService {
     existingItems.forEach((item) => item.remove());
 
     itemsArray.forEach((item) => {
-      const clone = templateEl.cloneNode(true) as HTMLElement;
+      const clone = templateEl.cloneNode(true) as ExtendedHTMLElement;
       clone.removeAttribute(repeatAttr);
       clone.setAttribute('data-repeat', arrayName);
       clone.style.display = '';
+      clone._item = item; // Attach item for context
       this.replacePlaceholders(clone, itemVar, item);
       this.processIfCondition(clone, itemVar, item);
       parent.appendChild(clone);
@@ -46,15 +52,16 @@ export class RepeaterService {
     templateEl.style.display = 'none';
   }
 
-  private static processIfCondition(el: HTMLElement, itemVar: string, item: any): void {
+  private static processIfCondition(el: ExtendedHTMLElement, itemVar: string, item: any): void {
     const ifAttr = Constants.FRAMEWORK.ATTRIBUTES.IF;
-    const elements = el.querySelectorAll(`[${ifAttr}]`) as NodeListOf<HTMLElement>;
+    const elements = el.querySelectorAll(`[${ifAttr}]`) as NodeListOf<ExtendedHTMLElement>;
     elements.forEach((element) => {
       const condition = element.getAttribute(ifAttr);
-      const value = this.evaluateExpression(condition, itemVar, item);
-      if (!value) {
-        element.remove();
-      } else {
+      if (condition) {
+        logger.debug(' ********************************************** ', condition);
+        element.setAttribute('data-if', condition); // Preserve condition string
+        const value = this.evaluateExpression(condition, itemVar, item);
+        element.style.display = value ? '' : 'none'; // Toggle visibility
         element.removeAttribute(ifAttr);
       }
     });

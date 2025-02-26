@@ -12,12 +12,19 @@ export class Navbar extends ViewLifecycle {
     { name: 'Mailbox', icon: 'envelope', route: 'mailbox', count: 9 },
     { name: 'Buy credits', icon: 'money-bill-1', route: 'buy-credits' },
   ];
+  public isMobileMenuOpen = false;
 
   constructor() {
     super();
+    this.isMobileMenuOpen = false;
   }
 
   public navTo(route: string): void {
+    this.isMobileMenuOpen = false;
     Router.navigate(route);
+  }
+
+  public toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
   }
 }
