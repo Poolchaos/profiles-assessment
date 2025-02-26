@@ -142,4 +142,10 @@ nav-bar {
       padding: 7px;
     }
   }
+
+  @media (min-width: 801px) {
+    .mobile-menu {
+      display: none !important;
+    }
+  }
 }

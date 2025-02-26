@@ -2,32 +2,32 @@ import { Profile } from '../../models/profile';
 import { ViewLifecycle } from '../../scripts/lifecycle-base';
 import Logger from '../../scripts/logger';
 import { httpService } from '../../services/http-service';
+import { Router } from '../../scripts/router';
 
 import './profile-overview.scss';
 
 const logger = new Logger('ProfileOverview');
 
 export class ProfileOverview extends ViewLifecycle {
-  public profiles: Profile[] = [];
+  public user: Profile | null = null;
 
   constructor() {
     super();
-    this.profiles = this.makeArrayReactive('profiles', [], 'profile');
   }
 
   protected activate(): void {
-    this.loadProfiles();
+    const profileId = Router.getCurrentParams().id;
+    this.loadProfile(profileId);
   }
 
-  private async loadProfiles(): Promise<void> {
+  private async loadProfile(id: string): Promise<void> {
     try {
-      const response = await httpService.get<{ profiles: Profile[] }>('profiles');
-      this.profiles.length = 0;
-      response.profiles.forEach((profile) => this.profiles.push(profile));
-      logger.debug('Profiles loaded successfully', this.profiles);
+      const response = await httpService.get<Profile>(`profiles/${id}`);
+      this.user = response;
+      logger.debug('Profile loaded successfully', this.user);
     } catch (error) {
-      logger.error('Failed to load profiles', error);
-      this.profiles = [];
+      logger.error('Failed to load profile', error);
+      this.user = null;
     }
   }
 }

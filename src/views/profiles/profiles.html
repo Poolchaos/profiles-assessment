@@ -1,0 +1,55 @@
+<template>
+  <div class="ui container">
+    <h2 class="ui header">
+      <span class="bottom-border">
+        <i class="users icon fa-solid fa-users fa-sm"></i>
+        <span class="content">All </span>
+      </span>
+      <span>profiles</span>
+    </h2>
+    <main
+      class="ui cards"
+      role="region"
+      aria-label="Profile List"
+    >
+      <div
+        class="ui card"
+        fl-repeat="profile of profiles"
+        role="article"
+        tabindex="0"
+      >
+        <div
+          class="image profile-bg"
+          style="background-image: url(${profile.avatar})"
+          fl-click="viewProfile(${profile.id})"
+        >
+          <div class="star-icon">
+            <i
+              class="star icon fa-solid fa-star fa-2xs"
+              aria-hidden="true"
+            ></i>
+          </div>
+        </div>
+        <div class="content profile-footer">
+          <div class="header">${profile.name} (${profile.age})</div>
+          <div class="extra content">
+            <button
+              class="ui button flex green"
+              aria-label="Message ${profile.name}"
+            >
+              <i class="envelope icon fa-solid fa-envelope"></i>
+              Message
+            </button>
+            <button
+              class="ui button flex red"
+              aria-label="Flirt with ${profile.name}"
+            >
+              <i class="heart icon fa-solid fa-heart"></i>
+              Flirt
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</template>

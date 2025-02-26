@@ -16,7 +16,7 @@ export class ActionsService {
       }
       return true;
     } catch (e) {
-      logger.error('failed with cause', e);
+      logger.error('Failed with cause', e);
     }
   }
 
@@ -28,14 +28,16 @@ export class ActionsService {
     }
     const [_, methodName, argExpr] = match;
 
+    const method = viewModel[methodName];
+    if (typeof method !== 'function') {
+      logger.error(`Method "${methodName}" is not a function on viewModel`);
+      return;
+    }
+
     el.addEventListener('click', () => {
-      const method = viewModel[methodName];
-      if (typeof method !== 'function') {
-        logger.error(`Method "${methodName}" not found on viewModel`);
-        return;
-      }
+      logger.debug(`Click triggered for ${methodName} with ${argExpr}`);
       try {
-        const argValue = this.evaluateExpression(argExpr, item);
+        const argValue = this.evaluateArgument(argExpr, item);
         method.call(viewModel, argValue);
       } catch (e) {
         logger.error(`Failed to execute "${action}" due to:`, e);
@@ -43,24 +45,20 @@ export class ActionsService {
     });
   }
 
-  private static evaluateExpression(expr: string, item: any): any {
-    if (!item) {
-      return expr;
-    }
-
-    if (expr.startsWith('item.')) {
-      expr = expr.substring(5);
-    }
-
-    const parts = expr.split('.');
-    let value = item;
-    for (const part of parts) {
-      value = value[part];
-      if (value === undefined) {
-        logger.error(`Invalid expression: "${expr}" for item:`, item);
-        return '';
+  private static evaluateArgument(expr: string, item?: any): any {
+    if (!expr.includes('item.')) {
+      if ((expr.startsWith("'") && expr.endsWith("'")) || (expr.startsWith('"') && expr.endsWith('"'))) {
+        return expr.slice(1, -1);
       }
+      return isNaN(Number(expr)) ? expr : Number(expr);
     }
-    return value;
+
+    if (item && expr.startsWith('item.')) {
+      const prop = expr.replace('item.', '');
+      return item[prop] !== undefined ? item[prop] : expr;
+    }
+
+    logger.error(`Unable to evaluate expression: "${expr}" with item:`, item);
+    return expr;
   }
 }

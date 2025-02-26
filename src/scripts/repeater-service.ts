@@ -1,4 +1,5 @@
 import { Constants } from '../constants/constants';
+import { ActionsService } from './actions-service';
 import Logger from './logger';
 
 const logger = new Logger('RepeaterService');
@@ -25,7 +26,7 @@ export class RepeaterService {
       return;
     }
 
-    const repeatAttr = 'fl-repeat';
+    const repeatAttr = Constants.FRAMEWORK.ATTRIBUTES.REPEAT;
     if (!templateEl) {
       templateEl = document.querySelector(`[${repeatAttr}*="${arrayName}"]`) as HTMLElement;
     }
@@ -43,9 +44,16 @@ export class RepeaterService {
       clone.removeAttribute(repeatAttr);
       clone.setAttribute('data-repeat', arrayName);
       clone.style.display = '';
-      clone._item = item; // Attach item for context
+      clone._item = item;
       this.replacePlaceholders(clone, itemVar, item);
       this.processIfCondition(clone, itemVar, item);
+
+      const clickElements = clone.querySelectorAll('[fl-click]');
+      clickElements.forEach((clickEl) => {
+        const action = clickEl.getAttribute('fl-click');
+        ActionsService.matchActions(action, viewModel, clickEl as HTMLElement, 'fl-click', item);
+      });
+
       parent.appendChild(clone);
     });
 
@@ -58,10 +66,9 @@ export class RepeaterService {
     elements.forEach((element) => {
       const condition = element.getAttribute(ifAttr);
       if (condition) {
-        logger.debug(' ********************************************** ', condition);
-        element.setAttribute('data-if', condition); // Preserve condition string
+        element.setAttribute('data-if', condition);
         const value = this.evaluateExpression(condition, itemVar, item);
-        element.style.display = value ? '' : 'none'; // Toggle visibility
+        element.style.display = value ? '' : 'none';
         element.removeAttribute(ifAttr);
       }
     });
@@ -96,13 +103,18 @@ export class RepeaterService {
 
     for (let i = 0; i < el.attributes.length; i++) {
       const attr = el.attributes[i];
-      if (attr.name === 'fl-click') {
-        const value = attr.value.replace(new RegExp(`${itemVar}\\.(\\w+)`, 'g'), (match, prop) => {
+      if (attr.name === Constants.FRAMEWORK.ATTRIBUTES.CLICK) {
+        let value = attr.value;
+        value = value.replace(new RegExp(`\\$\\{${itemVar}\\.(\\w+)\\}`, 'g'), (match, prop) => {
+          const propValue = item[prop];
+          return propValue !== undefined ? `${propValue}` : match;
+        });
+        value = value.replace(new RegExp(`${itemVar}\\.(\\w+)`, 'g'), (match, prop) => {
           const propValue = item[prop];
           return propValue !== undefined ? `${propValue}` : match;
         });
         attr.value = value;
-      } else {
+      } else if (attr.name === 'style' || attr.name.startsWith('data-') || attr.name.startsWith('aria-')) {
         const regex = new RegExp(`\\$\\{\\s*${itemVar}\\.(\\w+)\\s*\\}`, 'g');
         attr.value = attr.value.replace(regex, (match, prop) => {
           const value = item[prop];

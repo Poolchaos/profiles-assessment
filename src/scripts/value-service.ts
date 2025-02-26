@@ -1,5 +1,5 @@
 import Logger from './logger';
-import { Constants } from '../constants/constants'; // Assuming this holds framework attribute names
+import { Constants } from '../constants/constants';
 
 const logger = new Logger('ValueService');
 

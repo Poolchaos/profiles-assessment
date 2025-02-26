@@ -1,0 +1,111 @@
+@use '../../styles/variables';
+@use '../../styles/utilities';
+@use 'sass:color';
+
+.ui.cards {
+  @extend .m-3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.ui.header {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 1rem;
+  border-bottom: 1px solid variables.$border-light-gray;
+  padding-bottom: 0.5rem;
+  color: variables.$gray;
+
+  .bottom-border {
+    border-bottom: 2px solid variables.$black;
+    padding-bottom: 0.5rem;
+  }
+}
+
+.ui.card {
+  width: 160px;
+  height: 250px;
+  box-shadow: 0 0 20px variables.$shadow-color;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0.3rem;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-2px);
+    outline: none;
+  }
+
+  .profile-bg {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    flex: 1;
+
+    .star-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      background-color: rgba(variables.$navbar-text, 1);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid variables.$border-gray;
+      cursor: pointer;
+
+      .star.icon {
+        color: variables.$icon-gray;
+      }
+    }
+  }
+
+  .profile-footer {
+    padding: 0.6rem;
+    text-align: center;
+
+    .header {
+      font-size: 1rem;
+      color: variables.$text-header;
+      margin-bottom: 0.5rem;
+    }
+
+    .extra.content {
+      display: flex;
+      gap: 0.2rem;
+
+      .ui.button {
+        font-size: 0.7rem;
+        border: 1px solid variables.$border-gray;
+        background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
+        cursor: pointer;
+
+        i.icon {
+          margin-right: 0.2rem;
+        }
+
+        &.green .icon {
+          color: green;
+        }
+        &.red .icon {
+          color: variables.$icon-red;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .ui.card {
+    min-width: 150px;
+    max-width: 250px;
+    width: unset;
+    flex: 1;
+  }
+}

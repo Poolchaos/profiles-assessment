@@ -13,13 +13,11 @@ export class App extends ViewLifecycle {
     Router.configure([
       {
         route: ['', 'profiles'], //
-        module: 'views/profile-overview/profile-overview',
-        uri: 'Flaapworks',
+        module: 'views/profiles/profiles',
       },
       {
-        route: 'single-profile', //
-        module: 'views/single-profile/single-profile',
-        uri: 'single-profile',
+        route: 'profile-overview/:id', //
+        module: 'views/profile-overview/profile-overview',
       },
     ]);
   }

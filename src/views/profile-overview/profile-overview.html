@@ -1,54 +1,152 @@
 <template>
-  <div class="ui container">
+  <div class="profile-overview">
+    <header class="search-header">
+      <form class="search-form">
+        <label><strong>Search:</strong></label>
+        <div class="gender-options">
+          <input
+            type="radio"
+            name="gender"
+            value="man"
+            id="man"
+          />
+          <label for="man">Man</label>
+          <input
+            type="radio"
+            name="gender"
+            value="woman"
+            id="woman"
+          />
+          <label for="woman">Woman</label>
+        </div>
+        <label><strong>Age:</strong></label>
+        <select name="age-from">
+          <option value="18">18</option>
+          <option value="19">19</option>
+        </select>
+        <label><strong>Until:</strong></label>
+        <select name="age-to">
+          <option value="100">100</option>
+        </select>
+        <input
+          type="checkbox"
+          id="with-picture"
+        />
+        <label for="with-picture">With picture</label>
+      </form>
+    </header>
+
     <h2 class="ui header">
       <span class="bottom-border">
-        <i class="users icon fa-solid fa-users fa-sm"></i>
-        <span class="content">All </span>
+        <i class="user icon fa-solid fa-user fa-sm"></i>
+        <span class="content">Profile of </span>
       </span>
-      <span>profiles</span>
+      <span>${user.name}</span>
     </h2>
-    <main
-      class="ui cards"
-      role="region"
-      aria-label="Profile List"
-    >
-      <div
-        class="ui card"
-        fl-repeat="profile of profiles"
-        role="article"
-        tabindex="0"
-      >
+
+    <div class="content-grid">
+      <div class="profile-sidebar">
         <div
-          class="image profile-bg"
-          style="background-image: url(${profile.avatar})"
-        >
-          <div class="star-icon">
-            <i
-              class="star icon fa-solid fa-star fa-2xs"
-              aria-hidden="true"
-            ></i>
-          </div>
-        </div>
-        <div class="content profile-footer">
-          <div class="header">${profile.name} (${profile.age})</div>
-          <div class="extra content">
-            <button
-              class="ui button flex green"
-              aria-label="Message ${profile.name}"
-            >
-              <i class="envelope icon fa-solid fa-envelope"></i>
-              Message
-            </button>
-            <button
-              class="ui button flex red"
-              aria-label="Flirt with ${profile.name}"
-            >
-              <i class="heart icon fa-solid fa-heart"></i>
-              Flirt
-            </button>
-          </div>
+          class="profile-picture"
+          style="background-image: url(${user.avatar})"
+        ></div>
+        <div class="action-buttons">
+          <button class="ui button red"><i class="heart icon fa-solid fa-heart"></i> Flirt</button>
+          <button class="ui button green"><i class="gift icon fa-solid fa-gift"></i> Gift</button>
+          <button class="ui button blue"><i class="eye icon fa-solid fa-eye"></i> Wink</button>
         </div>
       </div>
-    </main>
+
+      <div class="profile-details">
+        <div class="user-info">
+          <div class="info-item">
+            <label>Age:</label>
+            <span>${user.age}</span>
+          </div>
+          <div class="info-item">
+            <label>Status:</label>
+            <span>${user.status}</span>
+          </div>
+          <div class="info-item">
+            <label>Looking for gender:</label>
+            <span>${user.lookingFor}</span>
+          </div>
+          <div class="info-item">
+            <label>City:</label>
+            <span>${user.city}</span>
+          </div>
+          <div class="info-item">
+            <label>Country:</label>
+            <span>${user.country}</span>
+          </div>
+        </div>
+
+        <div class="message-container">
+          <p><strong>Do you like ${user.name}? Break the ice! Send her a message NOW!</strong></p>
+          <textarea placeholder="Type your message..."></textarea>
+          <p>See all opening lines</p>
+          <div class="message-actions">
+            <div class="button-group">
+              <button class="ui button">
+                <i class="smile icon fa-solid fa-smile"></i>
+              </button>
+              <button class="ui button"><i class="camera icon fa-solid fa-camera"></i> Add photo (optional)</button>
+            </div>
+            <button class="ui button send-message"><i class="envelope icon fa-solid fa-envelope"></i> Send message</button>
+          </div>
+        </div>
+
+        <div class="about-me">
+          <h3><i class="user icon fa-solid fa-user"></i> About me</h3>
+          <p>${user.about}</p>
+        </div>
+
+        <div class="more-info">
+          <h3><i class="info icon fa-solid fa-info"></i> More Info</h3>
+          <div class="info-columns">
+            <div class="column">
+              <div class="info-item">
+                <label>Plays Safe:</label>
+                <span>${user.playsSafe}</span>
+              </div>
+              <div class="info-item">
+                <label>Body Type:</label>
+                <span>${user.bodyType}</span>
+              </div>
+              <div class="info-item">
+                <label>Piercing:</label>
+                <span>${user.piercing}</span>
+              </div>
+              <div class="info-item">
+                <label>Smoking:</label>
+                <span>${user.smoking}</span>
+              </div>
+            </div>
+            <div class="column">
+              <div class="info-item">
+                <label>Height:</label>
+                <span>${user.height}</span>
+              </div>
+              <div class="info-item">
+                <label>Eye color:</label>
+                <span>${user.eyeColor}</span>
+              </div>
+              <div class="info-item">
+                <label>Hair color:</label>
+                <span>${user.hairColor}</span>
+              </div>
+              <div class="info-item">
+                <label>Drinking:</label>
+                <span>${user.drinking}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <button class="ui button report">Report</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

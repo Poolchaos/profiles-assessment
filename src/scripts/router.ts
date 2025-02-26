@@ -9,6 +9,8 @@ export class Router {
   public static routes: IRoute[];
   private static container: HTMLElement;
   private static activeRoute: IRoute;
+  // Store current route parameters
+  public static currentParams: { [key: string]: string } = {};
 
   // Not implemented yet
   private static previousRoute: IRoute;
@@ -41,18 +43,29 @@ export class Router {
 
   private static loadRoute(newRoute?: string): void {
     Router.clearContent();
+    const path = newRoute || Router.getCurrentPath();
     try {
       for (const route of Router.routes) {
-        const _route: any = route;
-        if (Array.isArray(_route.route) && _route.route.includes(newRoute || '')) {
-          Router.route(_route);
-          return;
-        } else if (typeof _route.route === 'string' && _route.route === (newRoute || '')) {
-          Router.route(_route);
-          return;
+        if (typeof route.route === 'string') {
+          const { regex, params } = Router.routeToRegex(route.route);
+          const match = path.match(regex);
+          if (match) {
+            Router.currentParams = {};
+            params.forEach((param, index) => {
+              Router.currentParams[param] = match[index + 1];
+            });
+            Router.route(route);
+            return;
+          }
+        } else if (Array.isArray(route.route)) {
+          if (route.route.includes(path)) {
+            Router.currentParams = {};
+            Router.route(route);
+            return;
+          }
         }
       }
-      logger.error(`No route found for '${newRoute || ''}'`);
+      logger.error(`No route found for '${path}'`);
     } catch (e) {
       logger.error('Failed to load route due to cause:', e);
     }
@@ -80,7 +93,7 @@ export class Router {
 
   public static navigate(route: string, updateUrl: boolean = true): void {
     if (updateUrl) {
-      window.history.pushState({}, '', '/' + route);
+      window.history.pushState({}, '', '/' + (route || ''));
       try {
         Router.loadRoute(route);
       } catch (e) {
@@ -93,6 +106,32 @@ export class Router {
         logger.error(`Failed to route to '${route}' due to cause:`, e);
       }
     }
+  }
+
+  public static getCurrentParams(): { [key: string]: string } {
+    return Router.currentParams;
+  }
+
+  private static routeToRegex(route: string): { regex: RegExp; params: string[] } {
+    if (route === '') {
+      return { regex: /^$/, params: [] };
+    }
+    const parts = route.split('/');
+    const regexParts: string[] = [];
+    const params: string[] = [];
+
+    for (const part of parts) {
+      if (part.startsWith(':')) {
+        params.push(part.slice(1));
+        regexParts.push('([^/]+)');
+      } else {
+        regexParts.push(part);
+      }
+    }
+
+    const regexStr = '^' + regexParts.join('/') + '$';
+    const regex = new RegExp(regexStr);
+    return { regex, params };
   }
 }
 
