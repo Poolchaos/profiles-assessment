@@ -83,7 +83,6 @@ export class Router {
   private static async route(route: IRoute): Promise<any> {
     try {
       if (Router.activeRoute) {
-        console.log(' ::>> route >>>> ', Router.activeRoute.module, route.module, Router.activeRoute.module === route.module);
         // This is not working as expected yet, so commented for now
         // if (Router.activeRoute.module !== route.module) {
         //   delete ModuleLoader.templates[Router.activeRoute.module];

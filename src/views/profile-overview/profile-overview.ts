@@ -32,7 +32,6 @@ export class ProfileOverview extends ViewLifecycle {
         ...MOCK_PROFILE,
         favorite: isFavorite,
       });
-      console.log(' ::>> this.user = ', this.user);
     } catch (error) {
       logger.error('Failed to load data', error);
       this.user = null;
@@ -41,7 +40,6 @@ export class ProfileOverview extends ViewLifecycle {
   }
 
   protected deactivate() {
-    console.log(' ::>> remove ');
     window.removeEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -53,7 +51,6 @@ export class ProfileOverview extends ViewLifecycle {
   private async loadProfile(id: string): Promise<Profile> {
     try {
       const response = await httpService.get<Profile>(`profiles/${id}`);
-      console.log(' ::>> response >>>>> ', response);
       return response;
     } catch (error) {
       logger.error('Failed to load profile', error);
@@ -76,7 +73,6 @@ export class ProfileOverview extends ViewLifecycle {
   }
 
   public async toggleFavourite(): Promise<void> {
-    console.log(' ::>> toggleFavourite clicked >>>>> ');
     try {
       const payload = { profileId: this.user.id };
       let response;

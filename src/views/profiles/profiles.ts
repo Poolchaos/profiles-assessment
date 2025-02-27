@@ -59,7 +59,6 @@ export class Profiles extends ViewLifecycle {
   }
 
   public async toggleFavourite(id: string, isFavorite: boolean): Promise<void> {
-    console.log(' ::>> toggleFavourite clicked >>>>> ', id, isFavorite);
     try {
       const payload = { profileId: parseInt(id, 10) };
       let response;
