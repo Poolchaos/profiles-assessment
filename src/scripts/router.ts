@@ -9,7 +9,6 @@ export class Router {
   public static routes: IRoute[];
   private static container: HTMLElement;
   private static activeRoute: IRoute;
-  // Store current route parameters
   public static currentParams: { [key: string]: string } = {};
 
   // Not implemented yet
@@ -24,6 +23,8 @@ export class Router {
       logger.error('Router container not found');
       return;
     }
+    const routerId = Math.random().toString(36).substr(2, 9);
+    container.setAttribute('id', routerId);
     Router.container = container;
     Router.routes = routes;
 
@@ -82,6 +83,11 @@ export class Router {
   private static async route(route: IRoute): Promise<any> {
     try {
       if (Router.activeRoute) {
+        console.log(' ::>> route >>>> ', Router.activeRoute.module, route.module, Router.activeRoute.module === route.module);
+        // This is not working as expected yet, so commented for now
+        // if (Router.activeRoute.module !== route.module) {
+        //   delete ModuleLoader.templates[Router.activeRoute.module];
+        // }
         Lifecycle.deactivate(`${Constants.FRAMEWORK.TEMPLATE}${Router.activeRoute.module}`);
       }
       await ModuleLoader.loadTemplate(route.module, Router.container);

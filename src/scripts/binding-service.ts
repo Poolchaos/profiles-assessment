@@ -35,8 +35,6 @@ export class BindingService {
     BindingService.viewModelsById.set(viewModelId, _viewModel);
 
     _viewModel = makeReactive(_viewModel, () => BindingService.updateIfConditions(viewModelId));
-    _viewModel._viewModelId = viewModelId;
-    BindingService.viewModelsById.set(viewModelId, _viewModel);
 
     templateHtml = await ValueService.bindBindableValues(templateHtml, _viewModel);
     await this.processIfConditions(_viewModel);

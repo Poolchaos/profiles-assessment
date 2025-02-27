@@ -16,21 +16,33 @@ export class ValueService {
           htmlString = htmlString.replace(bindableExpressionBraces, viewModel[prop]);
         }
 
-        if (htmlString.match(bindableExpressionString)) {
+        const placeholderRegex = /\${([^}]+)}/g;
+        let match;
+        while ((match = placeholderRegex.exec(htmlString)) !== null) {
+          const expression = match[1];
+          const bindableExpressionString = new RegExp(`\\${match[0]}`, 'g');
           let shouldReplace = true;
           for (const attr of frameworkAttributes) {
-            const attrRegex = new RegExp(`${attr}="${prop}"`, 'g');
+            const attrRegex = new RegExp(`${attr}="${expression}"`, 'g');
             if (htmlString.match(attrRegex)) {
               shouldReplace = false;
               break;
             }
           }
           if (shouldReplace) {
-            htmlString = htmlString.replace(bindableExpressionString, viewModel[prop]);
+            const value = ValueService.evaluateExpression(expression, viewModel);
+            htmlString = htmlString.replace(bindableExpressionString, value !== undefined ? value : match[0]);
           }
         }
       }
     }
     return htmlString;
+  }
+  public static evaluateExpression(expression: string, viewModel: any): any {
+    try {
+      return expression.split('.').reduce((obj, key) => obj?.[key], viewModel);
+    } catch (e) {
+      return undefined;
+    }
   }
 }

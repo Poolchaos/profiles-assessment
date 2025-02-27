@@ -86,7 +86,14 @@ export class ModuleLoader {
       const template: any = document.querySelector(`[id="${templateId}"]`);
       const splitModuleId = templateId.split('/');
       const tagName = splitModuleId[splitModuleId.length - 1];
-      const templateHtml = `<${tagName}>${template.innerHTML}</${tagName}>`;
+
+      const viewModelId = viewModel._viewModelId || Math.random().toString(36).substr(2, 9);
+      if (!viewModel._viewModelId) {
+        viewModel.prototype._viewModelId = viewModelId;
+        viewModel.prototype._templateId = templateId;
+        BindingService.viewModelsById.set(viewModelId, viewModel);
+      }
+      const templateHtml = `<${tagName} id="${viewModelId}">${template.innerHTML}</${tagName}>`;
       const module = await BindingService.attachViewModelToTemplate(templateId, templateHtml, viewModel);
       await Lifecycle.activate(templateId);
       await ModuleLoader.renderTemplateBindings(template, module.templateHtml);
