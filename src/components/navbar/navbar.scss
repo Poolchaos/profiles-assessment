@@ -11,6 +11,31 @@ nav-bar {
     background: linear-gradient(to bottom, variables.$button-bg-top-dark, variables.$button-bg-bottom-dark);
     position: relative;
 
+    .navbar-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      display: none;
+    }
+
+    .navbar-icons {
+      display: flex;
+      gap: 15px;
+    }
+
+    .icon-wrapper {
+      display: flex;
+      align-items: center;
+      color: variables.$navbar-text;
+
+      .notification-count,
+      .credit-count {
+        margin-left: 5px;
+        font-size: 0.9rem;
+      }
+    }
+
     .burger-btn {
       display: none;
       background: none;
@@ -125,6 +150,9 @@ nav-bar {
       // .nav {
       //   background: variables.$black !important;
       // }
+      .navbar-container {
+        display: flex;
+      }
       .desktop-menu {
         display: none;
       }

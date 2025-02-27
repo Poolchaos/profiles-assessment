@@ -1,13 +1,25 @@
 <template>
   <nav aria-label="Main navigation">
-    <button
-      class="burger-btn"
-      fl-click="toggleMobileMenu()"
-      aria-label="Toggle mobile menu"
-      aria-expanded.bind="isMobileMenuOpen"
-    >
-      <i class="fa-solid fa-bars"></i> Menu
-    </button>
+    <div class="navbar-container">
+      <button
+        class="burger-btn"
+        fl-click="toggleMobileMenu()"
+        aria-label="Toggle mobile menu"
+        aria-expanded.bind="isMobileMenuOpen"
+      >
+        <i class="fa-solid fa-bars"></i> Menu
+      </button>
+      <div class="navbar-icons">
+        <div class="icon-wrapper mr-10">
+          <i class="fa-solid fa-envelope"></i>
+          <span class="notification-count">${account.notifications}</span>
+        </div>
+        <div class="icon-wrapper">
+          <i class="fa-solid fa-money-bill-1"></i>
+          <span class="credit-count">${account.credit}</span>
+        </div>
+      </div>
+    </div>
 
     <ul
       class="flex menu desktop-menu"

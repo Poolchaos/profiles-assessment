@@ -108,6 +108,8 @@ export class RepeaterService {
 
     for (let i = 0; i < el.attributes.length; i++) {
       const attr = el.attributes[i];
+      const regex = new RegExp(`\\$\\{\\s*${itemVar}\\.(\\w+)\\s*\\}`, 'g');
+
       if (attr.name === Constants.FRAMEWORK.ATTRIBUTES.CLICK) {
         let value = attr.value;
         value = value.replace(new RegExp(`\\$\\{${itemVar}\\.(\\w+)\\}`, 'g'), (match, prop) => {
@@ -119,8 +121,7 @@ export class RepeaterService {
           return propValue !== undefined ? `${propValue}` : match;
         });
         attr.value = value;
-      } else if (attr.name === 'style' || attr.name.startsWith('data-') || attr.name.startsWith('aria-')) {
-        const regex = new RegExp(`\\$\\{\\s*${itemVar}\\.(\\w+)\\s*\\}`, 'g');
+      } else if (attr.name === 'class' || attr.name === 'style' || attr.name.startsWith('data-') || attr.name.startsWith('aria-')) {
         attr.value = attr.value.replace(regex, (match, prop) => {
           const value = item[prop];
           return value !== undefined ? value : '';
