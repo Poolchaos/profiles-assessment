@@ -32,6 +32,22 @@
   margin: 1.5rem;
 }
 
+.m {
+  &r {
+    &-2 {
+      margin-right: 0.2rem;
+    }
+    &-10 {
+      margin-right: 1rem;
+    }
+  }
+  &b {
+    &-2 {
+      margin-bottom: 0.2rem;
+    }
+  }
+}
+
 // Flexbox utilities
 .flex {
   display: flex;
@@ -50,6 +66,9 @@
 }
 .justify-center {
   justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
 }
 .justify-end {
   justify-content: flex-end;

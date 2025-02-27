@@ -4,20 +4,24 @@
       <form class="search-form">
         <label><strong>Search:</strong></label>
         <div class="gender-options">
-          <input
-            type="radio"
-            name="gender"
-            value="man"
-            id="man"
-          />
-          <label for="man">Man</label>
-          <input
-            type="radio"
-            name="gender"
-            value="woman"
-            id="woman"
-          />
-          <label for="woman">Woman</label>
+          <button class="ui button disabled">
+            <input
+              type="checkbox"
+              name="gender"
+              value="man"
+              id="man"
+            />
+            <label for="man">Man</label>
+          </button>
+          <button class="ui button disabled">
+            <input
+              type="checkbox"
+              name="gender"
+              value="woman"
+              id="woman"
+            />
+            <label for="woman">Woman</label>
+          </button>
         </div>
         <label><strong>Age:</strong></label>
         <select name="age-from">
@@ -28,23 +32,31 @@
         <select name="age-to">
           <option value="100">100</option>
         </select>
-        <input
-          type="checkbox"
-          id="with-picture"
-        />
-        <label for="with-picture">With picture</label>
+        <button class="ui button disabled">
+          <input
+            type="checkbox"
+            id="with-picture"
+          />
+          <label for="with-picture">With picture</label>
+        </button>
       </form>
     </header>
 
-    <h2 class="ui header">
-      <span class="bottom-border">
-        <i class="user icon fa-solid fa-user fa-sm"></i>
-        <span class="content">Profile of </span>
-      </span>
-      <span>${user.name}</span>
-    </h2>
+    <section class="header-weapper flex justify-between align-center">
+      <h2 class="ui header flex">
+        <span class="bottom-border flex align-center justify-between">
+          <i class="user icon fa-solid fa-user fa-sm mr-2"></i>
+          <span class="content">Pro</span>
+        </span>
+        <span>file of ${user.name}</span>
+      </h2>
+      <div class="flex align-center">
+        <i class="icon fa-solid fa-paperclip mr-10"></i>
+        <button class="ui button"><i class="icon fa-solid fa-star mr-2"></i> Favourite</button>
+      </div>
+    </section>
 
-    <div class="content-grid">
+    <section class="content-grid">
       <div class="profile-sidebar">
         <div
           class="profile-picture"
@@ -61,7 +73,7 @@
         <div class="user-info">
           <div class="info-item">
             <label>Age:</label>
-            <span>${user.age}</span>
+            <span>${user.age} old</span>
           </div>
           <div class="info-item">
             <label>Status:</label>
@@ -82,12 +94,12 @@
         </div>
 
         <div class="message-container">
-          <p><strong>Do you like ${user.name}? Break the ice! Send her a message NOW!</strong></p>
+          <div class="mb-2"><strong>Do you like ${user.name}? Break the ice! Send her a message NOW!</strong></div>
           <textarea placeholder="Type your message..."></textarea>
           <p>See all opening lines</p>
           <div class="message-actions">
             <div class="button-group">
-              <button class="ui button">
+              <button class="ui button gold">
                 <i class="smile icon fa-solid fa-smile"></i>
               </button>
               <button class="ui button"><i class="camera icon fa-solid fa-camera"></i> Add photo (optional)</button>
@@ -147,6 +159,6 @@
           <button class="ui button report">Report</button>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>

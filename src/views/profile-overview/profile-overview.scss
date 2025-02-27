@@ -14,10 +14,9 @@
     .search-form {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-
+      gap: 0.2rem;
       label {
-        font-weight: bold;
+        font-size: 0.8rem !important;
       }
 
       .gender-options {
@@ -28,25 +27,29 @@
       select {
         appearance: none;
         border: 1px solid variables.$border-gray;
-        background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
-        color: white;
+        background: variables.$white;
+        color: variables.$gray;
         padding: 10px;
+        width: 60px;
         border-radius: 3px;
         cursor: pointer;
+        -webkit-appearance: searchfield;
       }
     }
   }
 
+  .header-weapper {
+    border-bottom: 1px solid variables.$border-light-gray;
+    margin: 1rem;
+  }
   .ui.header {
     font-weight: 600;
     font-size: 1.2rem;
-    margin: 1rem;
-    border-bottom: 1px solid variables.$border-light-gray;
-    padding-bottom: 0.5rem;
     color: variables.$gray;
+    margin: 0;
 
     .bottom-border {
-      border-bottom: 2px solid variables.$black;
+      border-bottom: 2px solid variables.$gray;
       padding-bottom: 0.5rem;
     }
   }
@@ -54,21 +57,22 @@
   .content-grid {
     display: grid;
     grid-template-columns: 250px 1fr;
-    gap: 1rem;
-    padding: 1rem;
+    padding: 0 1rem 1rem 1rem;
   }
 
   .profile-sidebar {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 200px;
 
     .profile-picture {
-      width: 200px;
+      width: 100%;
       height: 200px;
       background-size: cover;
       background-position: center;
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
+      border-radius: 5px;
     }
 
     .action-buttons {
@@ -85,32 +89,33 @@
     gap: 1rem;
 
     .user-info {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 1rem;
+      display: flex;
+      gap: 1.5rem;
 
       .info-item {
         display: flex;
         flex-direction: column;
+        font-size: 0.8rem;
 
-        label {
-          font-weight: bold;
+        span {
+          font-size: 1.1rem;
         }
       }
     }
 
     .message-container {
       background-color: #f5f5f5;
-      box-shadow: 0 0 5px #dedede;
-      padding: 1rem;
+      box-shadow: 0 2px 8px #c9c9c9;
+      padding: 0.5rem;
       border-radius: 3px;
+      font-size: 1rem;
 
       textarea {
         width: 100%;
         min-height: 100px;
-        background-color: white;
-        border: 1px solid #cccccc;
-        color: black;
+        background-color: variables.$white;
+        border: 1px solid variables.$border-gray;
+        color: variables.$gray;
         padding: 0.5rem;
         border-radius: 3px;
 
@@ -124,6 +129,10 @@
         justify-content: space-between;
         align-items: center;
         margin-top: 0.5rem;
+        button {
+          font-size: 0.8rem;
+          font-weight: lighter !important;
+        }
       }
 
       .button-group {
@@ -134,9 +143,16 @@
 
     .about-me,
     .more-info {
+      font-size: 0.8rem;
       h3 {
         font-size: 1.2rem;
         margin-bottom: 0.5rem;
+        font-weight: normal;
+        color: variables.$gray;
+      }
+
+      i {
+        color: variables.$gray;
       }
     }
 
@@ -146,12 +162,10 @@
       gap: 1rem;
 
       .info-item {
-        display: flex;
-        flex-direction: column;
-
-        label {
-          font-weight: bold;
-        }
+        display: grid;
+        grid-template-columns: 0.6fr 1fr;
+        column-gap: 10px;
+        font-size: 0.8rem;
       }
     }
 
@@ -164,38 +178,46 @@
     font-size: 0.7rem;
     border: 1px solid variables.$border-gray;
     background: linear-gradient(to bottom, variables.$button-bg-top, variables.$button-bg-bottom);
-    color: white;
+    color: variables.$gray;
     cursor: pointer;
-    padding: 10px;
+    padding: 8px 14px;
     border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.2rem;
 
-    &.red {
-      border-color: #d43f3a;
-      background: linear-gradient(to bottom, #ed5e5a, #be3730);
+    &.red i {
+      color: #a94442;
     }
 
-    &.green {
-      border-color: #4cae4c;
-      background: linear-gradient(to bottom, #61c361, #51a451);
+    &.green i {
+      color: #3c763d;
     }
 
-    &.blue {
-      border-color: #337ab7;
-      background: linear-gradient(to bottom, #5bc0de, #31b0d5);
+    &.blue i {
+      color: #31708f;
+    }
+
+    &.gold i {
+      color: #ffc83d;
     }
 
     &.send-message {
       border-color: #4cae4c;
       background: linear-gradient(to bottom, #61c361, #51a451);
+      color: variables.$white;
     }
 
     &.report {
       border-color: #d43f3a;
       background: linear-gradient(to bottom, #ed5e5a, #be3730);
+      margin: auto;
+      color: variables.$white;
+    }
+
+    &.disabled {
+      cursor: default;
     }
   }
 }
