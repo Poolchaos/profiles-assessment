@@ -19,9 +19,23 @@ export class ProfileOverview extends ViewLifecycle {
     this.user = super.makeObjectReactive('user', {});
   }
 
-  protected activate(): void {
+  protected async activate(): Promise<void> {
     const profileId = Router.getCurrentParams().id;
-    this.loadProfile(profileId);
+    const currentUserId = this.getCurrentUserId();
+    try {
+      const [profile, favorites] = await Promise.all([this.loadProfile(profileId), this.loadFavourites()]);
+      const favoriteIds = favorites[currentUserId] || [];
+      const isFavorite = favoriteIds.includes(profile.id);
+      Object.assign(this.user, {
+        ...profile,
+        ...MOCK_PROFILE,
+        favorite: isFavorite,
+      });
+      console.log(' ::>> this.user = ', this.user);
+    } catch (error) {
+      logger.error('Failed to load data', error);
+      this.user = null;
+    }
     window.addEventListener('resize', this.handleResize.bind(this));
   }
 
@@ -35,22 +49,55 @@ export class ProfileOverview extends ViewLifecycle {
     super.reRenderTemplate();
   }
 
-  private async loadProfile(id: string): Promise<void> {
+  private async loadProfile(id: string): Promise<Profile> {
     try {
       const response = await httpService.get<Profile>(`profiles/${id}`);
       console.log(' ::>> response >>>>> ', response);
-      Object.assign(this.user, {
-        ...response,
-        ...MOCK_PROFILE,
-      });
+      return response;
     } catch (error) {
       logger.error('Failed to load profile', error);
-      this.user = null;
+      throw error;
+    }
+  }
+
+  private async loadFavourites(): Promise<Record<string, number[]>> {
+    try {
+      const response = await httpService.get<{ favorites: Record<string, number[]> }>('favorites');
+      return response.favorites;
+    } catch (error) {
+      logger.error('Failed to load favorites', error);
+      return {};
     }
   }
 
   public navigateToProfiles(): void {
-    console.log(' ::>> navigateToProfiles >>>> ');
     Router.navigate(`profiles`);
+  }
+
+  public async toggleFavourite(): Promise<void> {
+    console.log(' ::>> toggleFavourite clicked >>>>> ');
+    try {
+      const payload = { profileId: this.user.id };
+      let response;
+
+      if (this.user.favorite) {
+        response = await httpService.delete<{ additionalProp1: any }>('favorites', payload);
+      } else {
+        response = await httpService.post<{ additionalProp1: any }>('favorites', payload);
+      }
+
+      console.log('Response:', response);
+
+      Object.assign(this.user, {
+        favorite: !this.user.favorite,
+      });
+    } catch (error) {
+      logger.error('Failed to toggle favorite status', error);
+      throw error;
+    }
+  }
+
+  private getCurrentUserId(): string {
+    return '123456';
   }
 }

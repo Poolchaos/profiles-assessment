@@ -64,8 +64,22 @@
       </h2>
       <div class="favourite flex align-center">
         <i class="icon fa-solid fa-paperclip mr-10"></i>
-        <button class="full-button ui button"><i class="icon fa-solid fa-star mr-2"></i> Favourite</button>
-        <button class="small-button ui button"><i class="icon fa-solid fa-star mr-2"></i></button>
+        <button
+          class="full-button ui button gold"
+          fl-click="toggleFavourite()"
+          fl-if="user.favorite"
+        >
+          <i class="icon fa-solid fa-star mr-2"></i>
+          Favourite
+        </button>
+        <button
+          class="full-button ui button"
+          fl-click="toggleFavourite()"
+          fl-if="!user.favorite"
+        >
+          <i class="icon fa-solid fa-star mr-2"></i>
+          Favourite
+        </button>
       </div>
     </section>
 
@@ -88,13 +102,24 @@
               ></i>
               <i class="x-icon fa-solid fa-x"></i>
             </div>
-            <div class="mobile-user-info">
-              <div class="user-name">${user.name}</div>
-              <div class="user-details">${user.age} old, ${user.city}</div>
-              <div class="user-stats">
+            <div class="mobile-user-info flex align-center justify-between">
+              <div>
+                <div class="user-name">${user.name}</div>
+                <div class="user-details">${user.age} old, ${user.city}</div>
+              </div>
+              <div class="user-stats flex align-center">
                 <i class="eye fa-solid fa-eye"></i>
-                <i class="star fa-solid fa-star"></i>
-                <i class="gallery fa-solid fa-images">0</i>
+                <i
+                  class="star fa-solid fa-star gold hvoerable"
+                  fl-click="toggleFavourite()"
+                  fl-if="user.favorite"
+                ></i>
+                <i
+                  class="star fa-solid fa-star hvoerable"
+                  fl-click="toggleFavourite()"
+                  fl-if="!user.favorite"
+                ></i>
+                <span class="flex align-center"><i class="gallery fa-solid fa-images mr-5"></i> 0 </span>
               </div>
             </div>
           </div>

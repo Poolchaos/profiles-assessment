@@ -149,6 +149,10 @@
       .button-group {
         display: flex;
         gap: 0.5rem;
+
+        &.gold {
+          color: #ffc83d;
+        }
       }
     }
 
@@ -275,12 +279,11 @@
       }
 
       .user-name {
-        font-size: 1.8rem;
-        font-weight: bold;
+        font-size: 1rem;
       }
 
       .user-details {
-        font-size: 1.2rem;
+        font-size: 0.8rem;
       }
 
       .user-stats {
@@ -288,13 +291,22 @@
         gap: 1rem;
         font-size: 1.2rem;
         margin-top: 0.5rem;
+
+        .gold {
+          color: #ffc83d;
+        }
       }
+    }
+
+    .message-container {
+      font-size: 0.8rem !important;
     }
 
     .profile-details {
       margin-top: 1rem;
       padding: 0 1rem 1rem;
 
+      font-size: 0.8rem !important;
       .user-info {
         flex-wrap: wrap;
         gap: 0.5rem;

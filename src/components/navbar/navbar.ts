@@ -24,7 +24,7 @@ export class Navbar extends ViewLifecycle {
     age: null,
     lastActiveAt: null,
     username: null,
-    notifications: 0,
+    notifications: 9,
     credit: 0,
   };
 
