@@ -20,14 +20,6 @@ export class RequestService {
           logger.error(`Failed to get ts resource ${ModuleName} due to cause:`, e);
         }
       },
-      // asJs: async () => {
-      //   try {
-      //     const data = await require(`!!raw-loader!../${ModuleName}`).default;
-      //     return data;
-      //   } catch (e) {
-      //     logger.error(`Failed to get ts resource ${ModuleName} due to cause:`, e);
-      //   }
-      // },
     };
   }
 

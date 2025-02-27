@@ -62,8 +62,6 @@ export class Eventing {
       logger.error('Failed to remove subscription with cause ', new Error(e));
     }
   }
-
-  // todo: handle unsubscribing from class
 }
 
 export interface IMessage {

@@ -22,7 +22,6 @@ export class AttributesService {
         const elements = wrapper.querySelectorAll(`[${attr}]`);
         for (const el of elements) {
           const action = el.getAttribute(`${attr}`);
-          // el.removeAttribute(attr);
           await ActionsService.matchActions(action, viewModel, el as HTMLElement, attr);
         }
       }
