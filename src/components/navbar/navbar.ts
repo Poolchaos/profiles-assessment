@@ -1,6 +1,6 @@
 import { Account } from '../../models/account';
 import { ViewLifecycle } from '../../scripts/lifecycle-base';
-import Logger from '../../scripts/logger';
+import Logger from '../../utils/logger';
 import { Router } from '../../scripts/router';
 import { httpService } from '../../services/http-service';
 

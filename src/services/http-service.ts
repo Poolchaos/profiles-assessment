@@ -1,4 +1,4 @@
-import Logger from '../scripts/logger';
+import Logger from '../utils/logger';
 
 const logger = new Logger('HttpService');
 

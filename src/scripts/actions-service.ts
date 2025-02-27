@@ -1,4 +1,4 @@
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { Constants } from '../constants/constants';
 
 const logger = new Logger('ActionsService');

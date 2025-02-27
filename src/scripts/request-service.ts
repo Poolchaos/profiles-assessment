@@ -1,4 +1,4 @@
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { BindingService } from './binding-service';
 
 const logger = new Logger('RequestService');

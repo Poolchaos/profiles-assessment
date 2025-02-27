@@ -1,6 +1,6 @@
 import { ModuleLoader } from './module-loader';
 import { v4 as uuidv4 } from 'uuid';
-import Logger from './logger';
+import Logger from '../utils/logger';
 
 const __custom_elements__: { [tagName: string]: CustomElement } = {};
 const logger = new Logger('CustomElementConfig');

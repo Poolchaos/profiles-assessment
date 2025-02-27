@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { Constants } from '../constants/constants';
 
 const logger = new Logger('Eventing');

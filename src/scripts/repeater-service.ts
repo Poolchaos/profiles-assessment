@@ -1,6 +1,6 @@
 import { Constants } from '../constants/constants';
 import { ActionsService } from './actions-service';
-import Logger from './logger';
+import Logger from '../utils/logger';
 
 const logger = new Logger('RepeaterService');
 

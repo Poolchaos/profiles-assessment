@@ -1,5 +1,5 @@
 import { Eventing, IMessage } from './event-bus';
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { makeReactive } from '../utils/reactive';
 import { RepeaterService } from './repeater-service';
 import { ModuleLoader } from './module-loader';

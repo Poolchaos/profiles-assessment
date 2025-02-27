@@ -1,4 +1,4 @@
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { RequestService } from './request-service';
 import { BindingService } from './binding-service';
 import { Constants } from '../constants/constants';

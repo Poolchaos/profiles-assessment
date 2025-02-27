@@ -1,6 +1,6 @@
 import { Lifecycle } from './lifecycle';
 import { Constants } from '../constants/constants';
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { ModuleLoader } from './module-loader';
 
 const logger = new Logger('Routing');

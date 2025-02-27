@@ -1,4 +1,4 @@
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { ViewLifecycle } from './lifecycle-base';
 import { ModuleLoader } from './module-loader';
 import { Router } from './router';

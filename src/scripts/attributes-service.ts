@@ -1,5 +1,5 @@
 import { Constants } from '../constants/constants';
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { ActionsService } from './actions-service';
 
 const logger = new Logger('AttributesService');

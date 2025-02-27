@@ -1,7 +1,7 @@
 import { MOCK_PROFILE } from './../../../_mocks_/mock-profile';
 import { Profile } from '../../models/profile';
 import { ViewLifecycle } from '../../scripts/lifecycle-base';
-import Logger from '../../scripts/logger';
+import Logger from '../../utils/logger';
 import { httpService } from '../../services/http-service';
 import { Router } from '../../scripts/router';
 

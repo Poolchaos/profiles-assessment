@@ -1,4 +1,4 @@
-import Logger from '../scripts/logger';
+import Logger from './logger';
 
 const logger = new Logger('Reactive');
 

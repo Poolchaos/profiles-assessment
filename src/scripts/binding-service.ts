@@ -1,7 +1,7 @@
 import { AttributesService } from './attributes-service';
 import { ValueService } from './value-service';
 import { RepeaterService } from './repeater-service';
-import Logger from './logger';
+import Logger from '../utils/logger';
 import { TagsService } from './tags-service';
 import { ModuleLoader } from './module-loader';
 import { Constants } from '../constants/constants';
