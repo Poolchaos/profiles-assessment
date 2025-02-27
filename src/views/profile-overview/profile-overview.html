@@ -2,8 +2,8 @@
   <div class="profile-overview">
     <header class="search-header">
       <form class="search-form">
-        <label><strong>Search:</strong></label>
-        <div class="gender-options">
+        <section class="gender-options flex align-center">
+          <label><strong>Search:</strong></label>
           <button class="ui button disabled">
             <input
               type="checkbox"
@@ -22,16 +22,20 @@
             />
             <label for="woman">Woman</label>
           </button>
-        </div>
-        <label><strong>Age:</strong></label>
-        <select name="age-from">
-          <option value="18">18</option>
-          <option value="19">19</option>
-        </select>
-        <label><strong>Until:</strong></label>
-        <select name="age-to">
-          <option value="100">100</option>
-        </select>
+        </section>
+        <section class="flex align-center">
+          <label class="mr-2"><strong>Age:</strong></label>
+          <select name="age-from">
+            <option value="18">18</option>
+            <option value="19">19</option>
+          </select>
+        </section>
+        <section class="flex align-center">
+          <label class="mr-2"><strong>Until:</strong></label>
+          <select name="age-to">
+            <option value="100">100</option>
+          </select>
+        </section>
         <button class="ui button disabled">
           <input
             type="checkbox"
@@ -42,7 +46,7 @@
       </form>
     </header>
 
-    <section class="header-weapper flex justify-between align-center">
+    <section class="header-wrapper flex justify-between align-center">
       <h2 class="ui header flex">
         <span class="bottom-border flex align-center justify-between">
           <i class="user icon fa-solid fa-user fa-sm mr-2"></i>
@@ -50,9 +54,10 @@
         </span>
         <span>file of ${user.name}</span>
       </h2>
-      <div class="flex align-center">
+      <div class="favourite flex align-center">
         <i class="icon fa-solid fa-paperclip mr-10"></i>
-        <button class="ui button"><i class="icon fa-solid fa-star mr-2"></i> Favourite</button>
+        <button class="full-button ui button"><i class="icon fa-solid fa-star mr-2"></i> Favourite</button>
+        <button class="small-button ui button"><i class="icon fa-solid fa-star mr-2"></i></button>
       </div>
     </section>
 
