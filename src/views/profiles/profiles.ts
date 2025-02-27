@@ -61,7 +61,7 @@ export class Profiles extends ViewLifecycle {
     Router.navigate(`profile-overview/${id}`);
   }
 
-  public toggleFavourite(id: string): void {
-    console.log(' ::>> toggleFavourite clicked >>>>> ', id);
+  public toggleFavourite(id: string, isFavorite: boolean): void {
+    console.log(' ::>> toggleFavourite clicked >>>>> ', id, isFavorite);
   }
 }

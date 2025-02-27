@@ -51,32 +51,34 @@ export class ActionsService {
       event.stopPropagation();
       logger.debug(`Click triggered for ${methodName} with ${argExpr}`);
       try {
-        const argValue = this.evaluateArgument(argExpr, item);
-        method.call(viewModel, argValue);
+        const argValues = this.evaluateArguments(argExpr, item);
+        method.apply(viewModel, argValues);
       } catch (e) {
         logger.error(`Failed to execute "${action}" due to:`, e);
       }
     };
 
     el.addEventListener('click', newListener);
-
     actionMap.set(action, newListener);
   }
 
-  private static evaluateArgument(expr: string, item?: any): any {
-    if (!expr.includes('item.')) {
-      if ((expr.startsWith("'") && expr.endsWith("'")) || (expr.startsWith('"') && expr.endsWith('"'))) {
-        return expr.slice(1, -1);
-      }
-      return isNaN(Number(expr)) ? expr : Number(expr);
-    }
+  private static evaluateArguments(expr: string, item?: any): any[] {
+    const parts = expr.split(',').map((part) => part.trim());
+    return parts.map((part) => this.evaluateSingleArgument(part, item));
+  }
 
-    if (item && expr.startsWith('item.')) {
-      const prop = expr.replace('item.', '');
-      return item[prop] !== undefined ? item[prop] : expr;
+  private static evaluateSingleArgument(part: string, item?: any): any {
+    if ((part.startsWith("'") && part.endsWith("'")) || (part.startsWith('"') && part.endsWith('"'))) {
+      return part.slice(1, -1);
     }
-
-    logger.error(`Unable to evaluate expression: "${expr}" with item:`, item);
-    return expr;
+    if (part === 'true') return true;
+    if (part === 'false') return false;
+    const num = Number(part);
+    if (!isNaN(num)) return num;
+    if (item && part.startsWith('item.')) {
+      const prop = part.replace('item.', '');
+      return item[prop] !== undefined ? item[prop] : part;
+    }
+    return part;
   }
 }
