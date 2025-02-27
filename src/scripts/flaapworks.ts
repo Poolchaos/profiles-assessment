@@ -3,12 +3,14 @@ import { ViewLifecycle } from './lifecycle-base';
 import { ModuleLoader } from './module-loader';
 import { Router } from './router';
 import { CustomComponent, CustomElementConfig } from './custom-element';
+import { DeviceDetection } from './device-detection';
 
 Logger.logLevel = Logger.LOG_LEVELS.DEBUG;
 const logger = new Logger('Flaapworks');
 
 class Flaapworks {
   public static router: Router;
+  public static isMobile: boolean;
 
   constructor() {
     logger.debug('This is my test log');
@@ -16,6 +18,8 @@ class Flaapworks {
 
   public static async initialise(): Promise<any> {
     try {
+      DeviceDetection.detectDevice();
+      Flaapworks.isMobile = DeviceDetection.isMobile;
       await ModuleLoader.initialise();
       return Flaapworks;
     } catch (e) {

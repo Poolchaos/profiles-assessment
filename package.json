@@ -1,11 +1,15 @@
 {
   "name": "profiles-assessment",
   "description": "This is the assessment for BD Technologies.",
-  "version": "1.3.5",
+  "version": "1.0.0",
   "main": "src/index.ts",
   "repository": {
-    "type": "???",
-    "url": "???"
+    "type": "git",
+    "url": "https://github.com/Poolchaos/profiles-assessment"
+  },
+  "author": {
+    "name": "Phillip-Juan van der Berg",
+    "email": "phillipjuanvanderberg@gmail.com"
   },
   "scripts": {
     "build": "webpack --env production",
