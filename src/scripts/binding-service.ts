@@ -31,10 +31,9 @@ export class BindingService {
       await ModuleLoader.storeTemplate(templateId, templateHtml, _viewModel);
     }
 
-    const viewModelId = Math.random().toString(36).substr(2, 9);
-    BindingService.viewModelsById.set(viewModelId, _viewModel);
+    BindingService.viewModelsById.set(_viewModel._viewModelId, _viewModel);
 
-    _viewModel = makeReactive(_viewModel, () => BindingService.updateIfConditions(viewModelId));
+    _viewModel = makeReactive(_viewModel, () => BindingService.updateIfConditions(_viewModel._viewModelId));
 
     templateHtml = await ValueService.bindBindableValues(templateHtml, _viewModel);
     await this.processIfConditions(_viewModel);
@@ -51,14 +50,14 @@ export class BindingService {
   }
 
   public static async processIfConditions(viewModel: any): Promise<void> {
-    const ifAttr = 'fl-if';
+    const ifAttr = Constants.FRAMEWORK.ATTRIBUTES.IF;
     const elements = document.querySelectorAll(`[${ifAttr}]`);
     const viewModelId = viewModel._viewModelId;
     elements.forEach((element: HTMLElement) => {
       if (element.hasAttribute('data-if')) {
         return;
       }
-      const condition = element.getAttribute(ifAttr);
+      const condition = element.getAttribute(ifAttr)?.trim();
       if (condition) {
         if (condition === 'false' || condition === 'true') {
           logger.info(`Unexpected condition "${condition}" set for`, element);
@@ -67,7 +66,6 @@ export class BindingService {
         element.setAttribute('data-viewmodel-id', viewModelId);
         const value = this.evaluateIfCondition(condition, viewModel);
         element.style.display = value ? '' : 'none';
-        element.removeAttribute(ifAttr);
       }
     });
   }
@@ -87,8 +85,15 @@ export class BindingService {
   }
 
   private static evaluateIfCondition(condition: string, viewModel: any): boolean {
+    condition = condition.trim();
+    let invert = false;
+    while (condition.startsWith('!')) {
+      invert = !invert;
+      condition = condition.slice(1).trim();
+    }
     try {
-      return condition.split('.').reduce((obj, key) => obj?.[key], viewModel) ? true : false;
+      const value = condition.split('.').reduce((obj, key) => obj?.[key], viewModel);
+      return invert ? !value : !!value;
     } catch (e) {
       logger.error(`Failed to evaluate condition "${condition}"`, e);
       return false;

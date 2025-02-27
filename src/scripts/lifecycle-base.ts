@@ -4,6 +4,8 @@ import { makeReactive } from '../utils/reactive';
 import { RepeaterService } from './repeater-service';
 import { ModuleLoader } from './module-loader';
 import { ValueService } from './value-service';
+import { BindingService } from './binding-service';
+import { Constants } from '../constants/constants';
 
 let logger: Logger;
 
@@ -58,13 +60,16 @@ export class ViewLifecycle {
     return makeReactive(object, onChange);
   }
 
-  private async reRenderTemplate(): Promise<void> {
+  public async reRenderTemplate(): Promise<void> {
     const templateHtml = ModuleLoader.templates[this._templateId].template;
     const renderedHtml = await ValueService.bindBindableValues(templateHtml, this);
     const container = document.querySelector(`[id="${this._viewModelId}"]`);
     if (container) {
       container.innerHTML = renderedHtml;
-      logger.debug(`Template re-rendered for view model ID: ${this._viewModelId}`);
+      BindingService.processIfConditions(this);
+      const splitModuleId = this._templateId.split('/');
+      const tagName = splitModuleId[splitModuleId.length - 1];
+      BindingService.bindAttributes(this, tagName);
     } else {
       logger.error(`No container found for view model ID: ${this._viewModelId}`);
     }

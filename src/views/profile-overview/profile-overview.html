@@ -1,6 +1,10 @@
 <template>
   <div class="profile-overview">
-    <header class="search-header">
+    <!-- Search header (desktop only) -->
+    <header
+      fl-if="!isMobile"
+      class="search-header"
+    >
       <form class="search-form">
         <section class="gender-options flex align-center">
           <label><strong>Search:</strong></label>
@@ -46,7 +50,11 @@
       </form>
     </header>
 
-    <section class="header-wrapper flex justify-between align-center">
+    <!-- "Profile of" header (desktop only) -->
+    <section
+      fl-if="!isMobile"
+      class="header-wrapper flex justify-between align-center"
+    >
       <h2 class="ui header flex">
         <span class="bottom-border flex align-center justify-between">
           <i class="user icon fa-solid fa-user fa-sm mr-2"></i>
@@ -61,13 +69,40 @@
       </div>
     </section>
 
+    <!-- Main content -->
     <section class="content-grid">
       <div class="profile-sidebar">
         <div
           class="profile-picture"
           style="background-image: url(${user.avatar})"
-        ></div>
-        <div class="action-buttons">
+        >
+          <!-- Mobile-only overlays -->
+          <div
+            fl-if="isMobile"
+            class="mobile-overlays"
+          >
+            <div class="mobile-icons">
+              <i
+                class="back-arrow fa-solid fa-arrow-left"
+                fl-click="navigateToProfiles()"
+              ></i>
+              <i class="x-icon fa-solid fa-x"></i>
+            </div>
+            <div class="mobile-user-info">
+              <div class="user-name">${user.name}</div>
+              <div class="user-details">${user.age} old, ${user.city}</div>
+              <div class="user-stats">
+                <i class="eye fa-solid fa-eye"></i>
+                <i class="star fa-solid fa-star"></i>
+                <i class="gallery fa-solid fa-images">0</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="action-buttons"
+          fl-if="!isMobile"
+        >
           <button class="ui button red"><i class="heart icon fa-solid fa-heart"></i> Flirt</button>
           <button class="ui button green"><i class="gift icon fa-solid fa-gift"></i> Gift</button>
           <button class="ui button blue"><i class="eye icon fa-solid fa-eye"></i> Wink</button>
@@ -162,6 +197,16 @@
 
         <div class="report-section">
           <button class="ui button report">Report</button>
+        </div>
+
+        <!-- Action buttons for mobile only -->
+        <div
+          class="action-buttons mobile-actions"
+          fl-if="isMobile"
+        >
+          <button class="ui button red"><i class="heart icon fa-solid fa-heart"></i> Flirt</button>
+          <button class="ui button green"><i class="gift icon fa-solid fa-gift"></i> Gift</button>
+          <button class="ui button blue"><i class="eye icon fa-solid fa-eye"></i> Wink</button>
         </div>
       </div>
     </section>

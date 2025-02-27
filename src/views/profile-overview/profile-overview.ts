@@ -1,3 +1,4 @@
+import { MOCK_PROFILE } from './../../../_mocks_/mock-profile';
 import { Profile } from '../../models/profile';
 import { ViewLifecycle } from '../../scripts/lifecycle-base';
 import Logger from '../../scripts/logger';
@@ -5,22 +6,26 @@ import { httpService } from '../../services/http-service';
 import { Router } from '../../scripts/router';
 
 import './profile-overview.scss';
-import { makeReactive } from '../../utils/reactive';
 
 const logger = new Logger('ProfileOverview');
 
 export class ProfileOverview extends ViewLifecycle {
   public user: Profile | { [key: string]: any } = {};
   protected _viewModelId: string;
+  public isMobile = window.matchMedia('(max-width: 768px)').matches;
 
   constructor() {
     super();
-    this.user = this.makeObjectReactive('user', {});
+    this.user = super.makeObjectReactive('user', {});
   }
 
   protected activate(): void {
     const profileId = Router.getCurrentParams().id;
     this.loadProfile(profileId);
+    window.addEventListener('resize', () => {
+      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+      super.reRenderTemplate();
+    });
   }
 
   private async loadProfile(id: string): Promise<void> {
@@ -29,23 +34,16 @@ export class ProfileOverview extends ViewLifecycle {
       console.log(' ::>> response >>>>> ', response);
       Object.assign(this.user, {
         ...response,
-        status: 'single',
-        lookingFor: 'Men',
-        country: 'Unknown',
-        about:
-          'I am looking for Mr. Fucker. I can be shy at first and it can take a while to warm me up. I love watching XXX movies, walking & fucking in the park. If you can handle my pussy, then message me now.',
-        playsSafe: 'No',
-        bodyType: 'Slim',
-        piercing: 'No',
-        smoking: 'Sometimes',
-        height: 'I will tell you later',
-        eyeColor: 'Blue',
-        hairColor: 'Colores',
-        drinking: 'Sometimes',
+        ...MOCK_PROFILE,
       });
     } catch (error) {
       logger.error('Failed to load profile', error);
       this.user = null;
     }
+  }
+
+  public navigateToProfiles(): void {
+    console.log(' ::>> navigateToProfiles >>>> ');
+    Router.navigate(`profiles`);
   }
 }

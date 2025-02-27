@@ -122,6 +122,9 @@ nav-bar {
     }
 
     @media (max-width: 800px) {
+      // .nav {
+      //   background: variables.$black !important;
+      // }
       .desktop-menu {
         display: none;
       }

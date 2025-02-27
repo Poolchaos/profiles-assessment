@@ -26,5 +26,6 @@ export class Navbar extends ViewLifecycle {
 
   public toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
+    console.log(' ::>> this.isMobileMenuOpen >>>> ', this.isMobileMenuOpen);
   }
 }
