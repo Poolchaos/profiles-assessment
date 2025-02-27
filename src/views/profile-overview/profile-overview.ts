@@ -26,6 +26,7 @@ export class ProfileOverview extends ViewLifecycle {
       const [profile, favorites] = await Promise.all([this.loadProfile(profileId), this.loadFavourites()]);
       const favoriteIds = favorites[currentUserId] || [];
       const isFavorite = favoriteIds.includes(profile.id);
+      // Mutate the existing object to maintain reactivity in the framework
       Object.assign(this.user, {
         ...profile,
         ...MOCK_PROFILE,
@@ -86,8 +87,7 @@ export class ProfileOverview extends ViewLifecycle {
         response = await httpService.post<{ additionalProp1: any }>('favorites', payload);
       }
 
-      console.log('Response:', response);
-
+      // Mutate the existing object to maintain reactivity in the framework
       Object.assign(this.user, {
         favorite: !this.user.favorite,
       });

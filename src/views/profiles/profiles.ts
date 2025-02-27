@@ -25,10 +25,7 @@ export class Profiles extends ViewLifecycle {
         profile.favorite = favoriteIds.includes(profile.id);
       });
 
-      // Usually done like so
-      // this.profiles = profiles;
-
-      // Done like so due to how changes are detected to render repeatable components
+      // Mutate the existing object to maintain reactivity in the framework
       profiles.forEach((profile) => this.profiles.push(profile));
       logger.debug('Profiles loaded and favorites mapped successfully', this.profiles);
     } catch (error) {
@@ -84,9 +81,11 @@ export class Profiles extends ViewLifecycle {
 
   private updateProfileFavoriteStatus(id: string, newFavoriteStatus: boolean): void {
     const index = this.profiles.findIndex((profile) => profile.id === parseInt(id, 10));
-    if (index !== -1) {
-      const updatedProfile = { ...this.profiles[index], favorite: newFavoriteStatus };
-      this.profiles.splice(index, 1, updatedProfile);
+    if (index === -1) {
+      logger.error(`Profile with id ${id} not found in profiles array`);
+      return;
     }
+    const updatedProfile = { ...this.profiles[index], favorite: newFavoriteStatus };
+    this.profiles.splice(index, 1, updatedProfile);
   }
 }

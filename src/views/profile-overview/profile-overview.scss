@@ -233,6 +233,7 @@
 
     &.disabled {
       cursor: default;
+      opacity: 0.6;
     }
   }
 
@@ -335,7 +336,7 @@
 
     .ui.button {
       font-size: 0.9rem;
-      padding: 10px 16px;
+      padding: 0.5rem 1rem;
     }
   }
 }

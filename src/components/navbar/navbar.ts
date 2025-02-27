@@ -40,7 +40,7 @@ export class Navbar extends ViewLifecycle {
   private async loadAccount(): Promise<Record<string, number[]>> {
     try {
       const response = await httpService.get<{ account: Record<string, number[]> }>('account');
-      console.log(' ::>> acount = ', response);
+      // Mutate the existing object to maintain reactivity in the framework
       Object.assign(this.account, response);
     } catch (error) {
       logger.error('Failed to load favorites', error);
