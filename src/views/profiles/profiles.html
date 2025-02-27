@@ -25,8 +25,16 @@
         >
           <div class="star-icon">
             <i
+              class="star icon fa-solid fa-star fa-2xs gold"
+              aria-hidden="true"
+              fl-click="toggleFavourite(${profile.id}, ${profile.favorite})"
+              fl-if="profile.favorite"
+            ></i>
+            <i
               class="star icon fa-solid fa-star fa-2xs"
               aria-hidden="true"
+              fl-click="toggleFavourite(${profile.id}, ${profile.favorite})"
+              fl-if="!profile.favorite"
             ></i>
           </div>
         </div>
@@ -34,14 +42,14 @@
           <div class="header">${profile.name} (${profile.age})</div>
           <div class="extra content">
             <button
-              class="ui button flex green"
+              class="ui button flex green flex-1"
               aria-label="Message ${profile.name}"
             >
               <i class="envelope icon fa-solid fa-envelope"></i>
               Message
             </button>
             <button
-              class="ui button flex red"
+              class="ui button flex red flex-1"
               aria-label="Flirt with ${profile.name}"
             >
               <i class="heart icon fa-solid fa-heart"></i>

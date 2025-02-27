@@ -32,7 +32,6 @@
   flex-direction: column;
   border-radius: 0.3rem;
   overflow: hidden;
-  cursor: pointer;
 
   &:hover,
   &:focus {
@@ -45,6 +44,7 @@
     background-size: cover;
     background-position: center;
     flex: 1;
+    cursor: pointer;
 
     .star-icon {
       position: absolute;
@@ -62,6 +62,10 @@
 
       .star.icon {
         color: variables.$icon-gray;
+
+        &.gold {
+          color: #ffc83d;
+        }
       }
     }
   }

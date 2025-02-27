@@ -4,6 +4,8 @@ import { Constants } from '../constants/constants';
 const logger = new Logger('ActionsService');
 
 export class ActionsService {
+  private static listenerMap = new WeakMap<HTMLElement, Map<string, EventListener>>();
+
   public static async matchActions(action: string, viewModel: any, el: HTMLElement, attr: string, item?: any): Promise<any> {
     try {
       if (!action || typeof action !== 'string') {
@@ -34,7 +36,19 @@ export class ActionsService {
       return;
     }
 
-    el.addEventListener('click', () => {
+    let actionMap = this.listenerMap.get(el);
+    if (!actionMap) {
+      actionMap = new Map<string, EventListener>();
+      this.listenerMap.set(el, actionMap);
+    }
+
+    const existingListener = actionMap.get(action);
+    if (existingListener) {
+      el.removeEventListener('click', existingListener);
+    }
+
+    const newListener = (event: Event) => {
+      event.stopPropagation();
       logger.debug(`Click triggered for ${methodName} with ${argExpr}`);
       try {
         const argValue = this.evaluateArgument(argExpr, item);
@@ -42,7 +56,11 @@ export class ActionsService {
       } catch (e) {
         logger.error(`Failed to execute "${action}" due to:`, e);
       }
-    });
+    };
+
+    el.addEventListener('click', newListener);
+
+    actionMap.set(action, newListener);
   }
 
   private static evaluateArgument(expr: string, item?: any): any {

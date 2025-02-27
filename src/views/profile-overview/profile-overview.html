@@ -83,7 +83,7 @@
           >
             <div class="mobile-icons">
               <i
-                class="back-arrow fa-solid fa-arrow-left"
+                class="back-arrow fa-solid fa-arrow-left hoverable"
                 fl-click="navigateToProfiles()"
               ></i>
               <i class="x-icon fa-solid fa-x"></i>
@@ -110,7 +110,10 @@
       </div>
 
       <div class="profile-details">
-        <div class="user-info">
+        <div
+          class="user-info"
+          fl-if="!isMobile"
+        >
           <div class="info-item">
             <label>Age:</label>
             <span>${user.age} old</span>
@@ -142,9 +145,43 @@
               <button class="ui button gold">
                 <i class="smile icon fa-solid fa-smile"></i>
               </button>
-              <button class="ui button"><i class="camera icon fa-solid fa-camera"></i> Add photo (optional)</button>
+              <button class="ui button"><i class="camera icon fa-solid fa-camera"></i> <span fl-if="!isMobile">Add photo (optional)</span></button>
             </div>
             <button class="ui button send-message"><i class="envelope icon fa-solid fa-envelope"></i> Send message</button>
+          </div>
+        </div>
+
+        <div
+          class="action-buttons mobile-actions"
+          fl-if="isMobile"
+        >
+          <button class="ui button red width-40p"><i class="heart icon fa-solid fa-heart"></i> Flirt</button>
+          <button class="ui button green width-40p"><i class="gift icon fa-solid fa-gift"></i> Gift</button>
+        </div>
+
+        <div
+          class="user-info"
+          fl-if="isMobile"
+        >
+          <div class="info-item">
+            <label>Age:</label>
+            <span>${user.age} old</span>
+          </div>
+          <div class="info-item">
+            <label>Status:</label>
+            <span>${user.status}</span>
+          </div>
+          <div class="info-item">
+            <label>Looking for gender:</label>
+            <span>${user.lookingFor}</span>
+          </div>
+          <div class="info-item">
+            <label>City:</label>
+            <span>${user.city}</span>
+          </div>
+          <div class="info-item">
+            <label>Country:</label>
+            <span>${user.country}</span>
           </div>
         </div>
 
@@ -197,16 +234,6 @@
 
         <div class="report-section">
           <button class="ui button report">Report</button>
-        </div>
-
-        <!-- Action buttons for mobile only -->
-        <div
-          class="action-buttons mobile-actions"
-          fl-if="isMobile"
-        >
-          <button class="ui button red"><i class="heart icon fa-solid fa-heart"></i> Flirt</button>
-          <button class="ui button green"><i class="gift icon fa-solid fa-gift"></i> Gift</button>
-          <button class="ui button blue"><i class="eye icon fa-solid fa-eye"></i> Wink</button>
         </div>
       </div>
     </section>

@@ -5,4 +5,5 @@ export interface Profile {
   id: number;
   name: string;
   relationship_status: string;
+  favorite?: boolean;
 }

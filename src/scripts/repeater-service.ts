@@ -75,11 +75,16 @@ export class RepeaterService {
   }
 
   private static evaluateExpression(expression: string, itemVar: string, item: any): any {
-    if (expression.startsWith(`${itemVar}.`)) {
+    if (expression.startsWith('!')) {
+      const subExpression = expression.slice(1).trim();
+      const value = this.evaluateExpression(subExpression, itemVar, item);
+      return !value;
+    } else if (expression.startsWith(`${itemVar}.`)) {
       const prop = expression.replace(`${itemVar}.`, '');
       return item[prop];
+    } else {
+      return item[expression];
     }
-    return item[expression];
   }
 
   private static parseRepeatValue(value: string): [string, string] {

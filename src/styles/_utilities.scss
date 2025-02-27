@@ -52,6 +52,9 @@
 .flex {
   display: flex;
 }
+.flex-1 {
+  flex: 1;
+}
 .inline-flex {
   display: inline-flex;
 }
@@ -81,4 +84,14 @@
 }
 .align-end {
   align-items: flex-end;
+}
+
+.hoverable {
+  cursor: pointer;
+}
+
+.width {
+  &-40p {
+    width: 40%;
+  }
 }

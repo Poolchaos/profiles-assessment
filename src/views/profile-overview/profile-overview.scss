@@ -245,7 +245,7 @@
 
       .profile-picture {
         width: 100%;
-        height: 100vw; /* Full viewport width square for mobile */
+        height: 100vw;
         margin-bottom: 0;
         border-radius: 0;
       }
@@ -257,7 +257,7 @@
         width: 100%;
         height: 100%;
         color: white;
-        background: rgba(0, 0, 0, 0.3); /* Semi-transparent overlay */
+        background: rgba(0, 0, 0, 0.3);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -299,6 +299,11 @@
         flex-wrap: wrap;
         gap: 0.5rem;
 
+        span {
+          font-size: 0.8rem !important;
+          font-weight: bold;
+        }
+
         .info-item {
           min-width: 150px;
         }
@@ -312,8 +317,7 @@
         display: flex;
         flex-direction: row;
         gap: 0.5rem;
-        justify-content: center;
-        margin-top: 1rem;
+        justify-content: space-around;
       }
     }
 

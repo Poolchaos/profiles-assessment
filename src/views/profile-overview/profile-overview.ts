@@ -22,10 +22,17 @@ export class ProfileOverview extends ViewLifecycle {
   protected activate(): void {
     const profileId = Router.getCurrentParams().id;
     this.loadProfile(profileId);
-    window.addEventListener('resize', () => {
-      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
-      super.reRenderTemplate();
-    });
+    window.addEventListener('resize', this.handleResize.bind(this));
+  }
+
+  protected deactivate() {
+    console.log(' ::>> remove ');
+    window.removeEventListener('resize', this.handleResize.bind(this));
+  }
+
+  private handleResize(): void {
+    this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+    super.reRenderTemplate();
   }
 
   private async loadProfile(id: string): Promise<void> {
