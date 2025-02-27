@@ -53,7 +53,7 @@ export class Profiles extends ViewLifecycle {
       return response.favorites;
     } catch (error) {
       logger.error('Failed to load favorites', error);
-      return {}; // Return empty object if loading fails
+      return {};
     }
   }
 
@@ -61,7 +61,32 @@ export class Profiles extends ViewLifecycle {
     Router.navigate(`profile-overview/${id}`);
   }
 
-  public toggleFavourite(id: string, isFavorite: boolean): void {
+  public async toggleFavourite(id: string, isFavorite: boolean): Promise<void> {
     console.log(' ::>> toggleFavourite clicked >>>>> ', id, isFavorite);
+    try {
+      const payload = { profileId: parseInt(id, 10) };
+      let response;
+
+      if (isFavorite) {
+        response = await httpService.delete<{ additionalProp1: any }>('favorites', payload);
+      } else {
+        response = await httpService.post<{ additionalProp1: any }>('favorites', payload);
+      }
+
+      console.log('Response:', response);
+
+      this.updateProfileFavoriteStatus(id, !isFavorite);
+    } catch (error) {
+      logger.error('Failed to toggle favorite status', error);
+      throw error;
+    }
+  }
+
+  private updateProfileFavoriteStatus(id: string, newFavoriteStatus: boolean): void {
+    const index = this.profiles.findIndex((profile) => profile.id === parseInt(id, 10));
+    if (index !== -1) {
+      const updatedProfile = { ...this.profiles[index], favorite: newFavoriteStatus };
+      this.profiles.splice(index, 1, updatedProfile);
+    }
   }
 }
